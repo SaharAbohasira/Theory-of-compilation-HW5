@@ -37,6 +37,7 @@ class Exp: public Node
 public:
     string type;
     bool isVar;
+    string reg="";
     Exp(Exp *exp): Node(exp->value), type(exp->type){};
     Exp(Node *node, bool isVar);
     Exp(): Node(), type("void"), isVar(false){};
