@@ -21,14 +21,14 @@ string general::globalFreshVar()
     return reg;
 }
 
-string general::freshLabel(string name)
+/*string general::freshLabel(string name)                             //TODO: check if really needed
 {
     string new_label = name + std::to_string(current_label_num);
     current_label_num ++;
     return new_label;
-}
+}*/
 
-void general::binopCode(Exp* exp,const Exp &opr1, const Exp &opr2, const string &op)
+void general::binopCommand(Exp* exp,const Exp &opr1, const Exp &opr2, const string &op)
 {
     string op_to_string;
     exp->reg = freshVar();
@@ -69,7 +69,7 @@ void general::binopCode(Exp* exp,const Exp &opr1, const Exp &opr2, const string 
     }
 }
 
-void general::relopCode(Exp* exp, const Exp &opr1, const Exp &opr2, const string &op)
+void general::relopCommand(Exp* exp, const Exp &opr1, const Exp &opr2, const string &op)
 {
     exp->reg = freshVar();
     string op_to_string;
@@ -98,7 +98,39 @@ void general::relopCode(Exp* exp, const Exp &opr1, const Exp &opr2, const string
         op_to_string = "sle";
     }
     buffer.emit(exp->reg + " = icmp " + op_to_string + " i32 " + opr1.reg + ", " + opr2.reg);
-    int jump_address = buffer.emit("br i1 " + exp->reg + ", label @, label @");
-    exp->true_list = buffer.makelist(pair<int, BranchLabelIndex>(address, FIRST));
-    exp->false_list = buffer.makelist(pair<int, BranchLabelIndex>(address, SECOND));
+    //string true_label = buffer.freshLabel();
+    //string false_label = buffer.freshLabel();
+    int jump_address = buffer.emit("br i1 " + exp->reg + ", label %" + exp->true_label + ", label %" + exp->false_label);      //TODO: handle short circuit
+    buffer.emit(exp->true_label + ":");
+    //conditionBranch(true_label, false_label);
+    //buffer.emit(exp->reg + " = phi i32 [ 1, %" + true_label +"], [0, %" + false_label + "]");
+}
+
+/*void general::conditionBranch(string &true_label, string &false_label)
+{
+    buffer.emit(true_label + ":");
+    string print_result = buffer.freshLabel();
+    buffer.emit("br label %" + print_result)
+    buffer.emit(false_label + ":");
+    buffer.emit("br label %" + print_result)
+    buffer.emit(print_result + ":");
+}*/
+
+void general::returnCommand(string &type, string &reg)          //TODO: check if really needed
+{
+    /*string ret_type;
+    if(type == "int")
+    {
+        ret_type = "i32";
+    }
+    else if(type == "string")
+    {
+        ret_type = "i8*";
+    }
+    else if(type.empty())
+    {
+        buffer.emit("ret void");
+    }
+    buffer.emit("ret " + ret_type + reg);*/
+    buffer.emit("ret i32 0");
 }

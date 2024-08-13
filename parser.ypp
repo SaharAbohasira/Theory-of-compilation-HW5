@@ -9,6 +9,8 @@
         extern int yylineno;
         extern int yylex();
         extern ScopeSymbolTable scopeSymbolTable;
+        vector<string> whileNextStack;
+        vector<string> whileLabelStack;
         int yyerror(const char * merror);
 %}
 
@@ -38,13 +40,13 @@ Statement: LBRACE {/*std::cout << "start scope line: " << yylineno<< std::endl;*
            | ID ASSIGN Exp SC                                   {$$ = new Statement($1, dynamic_cast<Exp*>($3));}
            | Call SC                                            {$$ = new Statement(dynamic_cast<Call*>($1));}
            | RETURN SC                                          {$$ = new Statement(new Exp(), true);}
-           | IF LPAREN ISBOOL RPAREN PUSH Statement                     {$$ = new Statement("IF", $3);/*std::cout << "end scope line: " << yylineno<< std::endl;*/ scopeSymbolTable.pop_scope();}
-           | IF LPAREN ISBOOL RPAREN PUSH Statement ELSE {/*std::cout << "end scope line: " << yylineno<< std::endl;*/ scopeSymbolTable.pop_scope();} PUSH Statement      {$$ = new Statement("IF_ELSE", $3);/*std::cout << "end scope line: " << yylineno<< std::endl;*/ scopeSymbolTable.pop_scope();}
-           | WHILE LPAREN ISBOOL RPAREN {/*std::cout << "start scope line: " << yylineno<< std::endl;*/ scopeSymbolTable.push_scope(true);} Statement                  {$$ = new Statement("WHILE", $3);/*std::cout << "end scope line: " << yylineno<< std::endl;*/ scopeSymbolTable.pop_scope();}
-           | BREAK SC                                           {$$ = new Statement($1);}
-           | CONTINUE SC                                        {$$ = new Statement($1);}
+           | IF LPAREN ISBOOL RPAREN PUSH Statement                     {$$ = new Statement("IF", $3, $6);/*std::cout << "end scope line: " << yylineno<< std::endl;*/ scopeSymbolTable.pop_scope(); buffer.emit($3.false_label + ":");}
+           | IF LPAREN ISBOOL RPAREN PUSH Statement ELSE {/*std::cout << "end scope line: " << yylineno<< std::endl;*/ scopeSymbolTable.pop_scope(); buffer.emit("br label " + $3.next_label;); buffer.emit($3.false_label + ":");} PUSH Statement      {$$ = new Statement("IF_ELSE", $3);/*std::cout << "end scope line: " << yylineno<< std::endl;*/ scopeSymbolTable.pop_scope(); buffer.emit($3.next_label + ":");}
+           | WHILE LPAREN {$$->whileLabel = buffer.freshLabel(); whileLabelStack.push_back($$->whileLabel);} ISBOOL {whileNextStack.push_back($3->false_label;} RPAREN {/*std::cout << "start scope line: " << yylineno<< std::endl;*/ scopeSymbolTable.push_scope(true); buffer.emit($3.true_label + ":");} Statement                  {$$ = new Statement("WHILE", $3);/*std::cout << "end scope line: " << yylineno<< std::endl;*/ scopeSymbolTable.pop_scope(); buffer.emit("br label " + $$->whileLabel); buffer.emit($3.false_label + ":"); whileLabelStack.pop_back();}
+           | BREAK SC                                           {$$ = new Statement($1); buffer.emit("br label" + whileNextStack.back()); whileNextStack.pop_back();}
+           | CONTINUE SC                                        {$$ = new Statement($1); buffer.emit("br label" + whileLabelStack.back());}
 
-Call: ID LPAREN Exp RPAREN                                {$$ = new Call($1, $3);}    //TODO: check if need dynamic cast
+Call: ID LPAREN Exp RPAREN                                {$$ = new Call($1, $3);}
 
 Type: INT                                                       {$$ = new Type("int");}
       | BYTE                                                    {$$ = new Type("byte");}
@@ -59,14 +61,14 @@ Exp: LPAREN Exp RPAREN                                          {$$ = new Exp(dy
      | NUM                                                      {$$ = new Exp("int", $1);}
      | NUM B                                                    {$$ = new Exp("byte", $1);}
      | STRING                                                   {$$ = new Exp("string", $1);}
-     | TRUE                                                     {$$ = new Exp("bool", $1);}  //TODO:
+     | TRUE                                                     {$$ = new Exp("bool", $1);}
      | FALSE                                                    {$$ = new Exp("bool", $1);}
-     | NOT Exp                                                  {$$ = new Exp($2, $2, $1->value, "bool");}  //TODO:
+     | NOT Exp                                                  {$$ = new Exp($2, $2, $1->value, "bool");}
      | Exp AND Exp                                              {$$ = new Exp($1, $3, $2->value, "bool");}
      | Exp OR Exp                                               {$$ = new Exp($1, $3, $2->value, "bool");}
-     | Exp RELATIONAL Exp                                       {$$ = new Exp($1, $3, $2->value, "relop");}  //TODO:
+     | Exp RELATIONAL Exp                                       {$$ = new Exp($1, $3, $2->value, "relop");}
      | Exp EQUALITY Exp                                         {$$ = new Exp($1, $3, $2->value, "relop");}
-     | LPAREN Type RPAREN Exp                                   {$$ = new Exp(dynamic_cast<Type*>($2), dynamic_cast<Exp*>($4));}     //TODO:
+     | LPAREN Type RPAREN Exp                                   {$$ = new Exp(dynamic_cast<Type*>($2), dynamic_cast<Exp*>($4));}
 
 PUSH:                                                           {/*std::cout << "start scope line: " << yylineno << std::endl;*/ scopeSymbolTable.push_scope();}
 ISBOOL: Exp                                                     {is_bool($1);}

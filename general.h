@@ -21,9 +21,12 @@ public:
     general(): current_label_num(0), current_register_num(0){}
     string freshVar();
     string globalFreshVar();
-    string freshLabel(string name);
-    void binopCode(Exp* exp,const Exp &opr1, const Exp &opr2, const string &op);
-    void relopCode(Exp* exp, const Exp &opr1, const Exp &opr2, const string &op);
+    //string freshLabel(string name);
+    void binopCommand(Exp* exp,const Exp &opr1, const Exp &opr2, const string &op);
+    void relopCommand(Exp* exp, const Exp &opr1, const Exp &opr2, const string &op);
+    void returnCommand(string &type, string &val);
+    void conditionBranch(string &true_label, string &false_label);
+
 
 };
 

@@ -5,11 +5,14 @@
 #include "hw3_output.hpp"
 #include "types.h"
 #include "symbol_table.h"
+#include "general.h"
+#include "cg.hpp"
 
 #define MAX_BYTE 255
 
 extern ScopeSymbolTable scopeSymbolTable;
 extern int yylineno;
+extern CodeBuffer buffer;
 
 Exp::Exp(Node *node1, Node *node2, const std::string op, const std::string type1): isVar(false)
 {
@@ -23,6 +26,9 @@ Exp::Exp(Node *node1, Node *node2, const std::string op, const std::string type1
             exit(0);
         }
         this->type = "bool";
+        true_label = buffer.freshLabel();
+        false_label = buffer.freshLabel();
+        next_label = buffer.freshLabel();
     }
     else if(type1 == "binop")
     {
@@ -309,9 +315,10 @@ void is_bool(Node *node) {
     }
 }
 
-Statement::Statement( const string name, Node *node)
+Statement::Statement(const string name, Node *node, Node *node2)
 {
     Exp* exp = dynamic_cast<Exp*>(node);
+    Statement* statement = dynamic_cast<Statement*>(node2);
     if (exp->type != "bool")
     {
         output::errorMismatch(yylineno);

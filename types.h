@@ -37,7 +37,10 @@ class Exp: public Node
 public:
     string type;
     bool isVar;
-    string reg="";
+    string reg = "";
+    string true_label = "";
+    string false_label = "";
+    string next_label = "";
     Exp(Exp *exp): Node(exp->value), type(exp->type){};
     Exp(Node *node, bool isVar);
     Exp(): Node(), type("void"), isVar(false){};
@@ -63,6 +66,7 @@ public:
 
 class Statement : public Node
 {
+    string whileLabel = "";
 public:
     Statement(Node *node);
 
@@ -72,7 +76,7 @@ public:
 
     Statement(Node *id, Exp *exp);
 
-    Statement( const string name, Node *node);
+    Statement( const string name, Node *node, Node *node2);
 
     Statement(Exp *exp, bool isReturn = false);
 
