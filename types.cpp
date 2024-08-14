@@ -13,6 +13,7 @@
 extern ScopeSymbolTable scopeSymbolTable;
 extern int yylineno;
 extern CodeBuffer buffer;
+extern general codeGenerator;
 
 Exp::Exp(Node *node1, Node *node2, const std::string op, const std::string type1): isVar(false)
 {
@@ -230,7 +231,7 @@ Statement::Statement(Type *type, Node *id, Exp *exp)
     scopeSymbolTable.add_symbol(id->value, type->type, false);
     Exp *id_exp = new Exp();
     id_exp->type = type->value;
-    id_exp->reg = general::freshVar();
+    id_exp->reg = codeGenerator.freshVar();
     id_exp->value = id->value;
     if(type->value == "bool")
     {
