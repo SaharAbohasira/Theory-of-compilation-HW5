@@ -15,6 +15,8 @@ extern int yylineno;
 extern CodeBuffer buffer;
 extern general codeGenerator;
 
+using namespace std;
+
 Exp::Exp(Node *node1, Node *node2, const std::string op, const std::string type1): isVar(false)
 {
     Exp* exp1 = dynamic_cast<Exp *>(node1);
@@ -233,10 +235,13 @@ Statement::Statement(Type *type, Node *id, Exp *exp)
     id_exp->type = type->value;
     id_exp->reg = codeGenerator.freshVar();
     id_exp->value = id->value;
+    cout << "DEBUG " << exp->value << endl;
     if(type->value == "bool")
     {
+        cout << "DEBUG1 " << endl;
         if(exp->value == "true")
         {
+            cout << "DEBUG2 " << endl;
             buffer.emit(id_exp->reg + "= add i1 1, 0");
         }
         else if(exp->value == "false")
