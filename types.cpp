@@ -94,6 +94,19 @@ Exp::Exp(const string type, Node *terminal): Node(terminal->value), type(type), 
         reg = codeGenerator.freshVar();
         buffer.emit(reg + " = add i32 " + value + ", 0");
     }
+    else if(type == "bool")
+    {
+        reg = codeGenerator.freshVar();
+        if(terminal->value == "true")
+        {
+            buffer.emit(reg + " = add i32 1, 0");
+        }
+        else if(terminal->value == "false")
+        {
+            buffer.emit(reg + " = add i32 0, 0");
+        }
+
+    }
 }
 
 /*Exp::Exp(Exp *exp): Node(exp->value)
