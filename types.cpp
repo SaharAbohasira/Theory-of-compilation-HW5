@@ -79,6 +79,21 @@ Exp::Exp(const string type, Node *terminal): Node(terminal->value), type(type), 
             exit(0);
         }
     }
+    if(type == "string")
+    {
+        string str = exp->value;
+        str.pop_back();
+        string temp_reg = codeGenerator.globalFreshVar();
+        buffer.emit(temp_reg + " = constant [" + to_string(str.length())) + " x i8] c" + str + "\\00\"");
+        reg.replace(0, 1, "%");
+        buffer.emit(temp_reg + ".ptr = getelementptr [" + to_string(str.length())) + " x i8]");
+        reg = temp_reg + ".ptr";
+    }
+    else if(type == "byte" || type == "int")
+    {
+        reg = codeGenerator.freshVar();
+        buffer.emit(reg + " = add i32 " + value + ", 0");
+    }
 }
 
 /*Exp::Exp(Exp *exp): Node(exp->value)
