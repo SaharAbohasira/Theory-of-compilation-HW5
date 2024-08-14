@@ -26,6 +26,7 @@ public:
     void relopCommand(Exp* exp, const Exp &opr1, const Exp &opr2, const string &op);
     void returnCommand(string &type, string &val);
     void conditionBranch(string &true_label, string &false_label);
+    void globalCode();
 
 
 };

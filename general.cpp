@@ -28,6 +28,21 @@ string general::globalFreshVar()
     return new_label;
 }*/
 
+void general::globalCode()
+{
+    buffer.emit("@.DIV_BY_ZERO_ERROR = internal constant [23 x i8] c\"Error division by zero\\00\"");
+    buffer.emit("define void @check_division(i32) {");
+    buffer.emit("%valid = icmp eq i32 %0, 0");
+    buffer.emit("br i1 %valid, label %ILLEGAL, label %LEGAL");
+    buffer.emit("ILLEGAL:");
+    buffer.emit("call void @print(i8* getelementptr([23 x i8], [23 x i8]* @.DIV_BY_ZERO_ERROR, i32 0, i32 0))");
+    buffer.emit("call void @exit(i32 0)");
+    buffer.emit("ret void");
+    buffer.emit("LEGAL:");
+    buffer.emit("ret void");
+    buffer.emit("}");
+}
+
 void general::binopCommand(Exp* exp,const Exp &opr1, const Exp &opr2, const string &op)
 {
     string op_to_string;

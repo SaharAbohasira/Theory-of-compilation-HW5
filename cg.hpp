@@ -33,6 +33,12 @@ public:
 	//print the content of the global buffer to stdout
 	void printGlobalBuffer();
 
+    void declareFuncs();
+
+    void printDefinitions();
+
+    void initialEmits()
+
 };
 
 #endif
