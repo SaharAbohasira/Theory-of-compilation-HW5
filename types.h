@@ -66,8 +66,9 @@ public:
 
 class Statement : public Node
 {
-    string whileLabel = "";
 public:
+    string whileLabel = "";
+
     Statement(Node *node);
 
     Statement(Type *type, Node *id);
