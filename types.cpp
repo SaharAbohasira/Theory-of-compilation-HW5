@@ -237,10 +237,10 @@ Statement::Statement(Type *type, Node *id, Exp *exp)
     buffer.emit("DEBUG " + exp->value);
     if(type->value == "bool")
     {
-        buffer.emit("DEBUG1 "
+        buffer.emit("DEBUG1 ");
         if(exp->value == "true")
         {
-            buffer.emit("DEBUG2 ")
+            buffer.emit("DEBUG2 ");
             buffer.emit(id_exp->reg + "= add i1 1, 0");
         }
         else if(exp->value == "false")
