@@ -234,7 +234,7 @@ Statement::Statement(Type *type, Node *id, Exp *exp)
     id_exp->type = type->value;
     id_exp->reg = codeGenerator.freshVar();
     id_exp->value = id->value;
-    buffer.emit("DEBUG " + exp->value + " " + type->value);
+    buffer.emit("DEBUG " + exp->value + " " + type->value + "isEmpty");
     if(type->value == "bool")
     {
         buffer.emit("DEBUG1* ");
