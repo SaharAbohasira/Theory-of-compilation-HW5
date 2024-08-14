@@ -12,6 +12,7 @@
         extern int yylex();
         extern ScopeSymbolTable scopeSymbolTable;
         extern CodeBuffer buffer;
+        extern general codeGenerator;
         vector<string> whileNextStack;
         vector<string> whileLabelStack;
         int yyerror(const char * merror);
@@ -79,6 +80,7 @@ ISBOOL: Exp                                                     {is_bool($1);}
 
 CodeBuffer buffer = CodeBuffer();
 ScopeSymbolTable scopeSymbolTable = ScopeSymbolTable();
+general codeGenerator = general();
 
 int main(){
     buffer.initialEmits();
