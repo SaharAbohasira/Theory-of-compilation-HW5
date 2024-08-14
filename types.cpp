@@ -228,6 +228,29 @@ Statement::Statement(Type *type, Node *id, Exp *exp)
         exit(0);
     }
     scopeSymbolTable.add_symbol(id->value, type->type, false);
+    Exp *id_exp = new Exp();
+    id_exp->type = type->value;
+    id_exp->reg = general::freshVar();
+    id_exp->value = id->value;
+    if(type->value == "bool")
+    {
+        if(exp->value == "true")
+        {
+            buffer.emit(id_exp->reg + "= add i1 1, 0");
+        }
+        else if(exp->value == "false")
+        {
+            buffer.emit(id_exp->reg + "= add i1 0, 0");
+        }
+    }
+    else if(type->value == "byte")
+    {
+        buffer.emit(id_exp->reg + "= add i8 0, " + exp->value);
+    }
+    else if(type->value == "int")
+    {
+        buffer.emit(id_exp->reg + "= add i32 0, " + exp->value);
+    }
 }
 
 Statement::Statement(Node *id, Exp *exp)
