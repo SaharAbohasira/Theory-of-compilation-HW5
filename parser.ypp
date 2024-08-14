@@ -86,6 +86,8 @@ int main(){
     buffer.initialEmits();
     int parse = yyparse();
     scopeSymbolTable.pop_scope();
+    buffer.emit("ret i32 0");
+    buffer.emit("}");
     buffer.printGlobalBuffer();
     buffer.printCodeBuffer();
     return parse;

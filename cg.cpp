@@ -78,4 +78,5 @@ void CodeBuffer::initialEmits()
     codeGenerator.globalCode();
     declareFuncs();
     printDefinitions();
+    buffer.emit("define i32 @main(){");
 }
