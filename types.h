@@ -77,7 +77,7 @@ public:
 
     Statement(Node *id, Exp *exp);
 
-    Statement( const string name, Node *node;
+    Statement( const string name, Node *node);
 
     Statement(Exp *exp, bool isReturn = false);
 
