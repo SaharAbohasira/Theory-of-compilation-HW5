@@ -205,7 +205,6 @@ Statement::Statement(Type *type, Node *id) : Node()
 
 Statement::Statement(Type *type, Node *id, Exp *exp)
 {
-    buffer.emit("DEBUG CHECK");
     if(scopeSymbolTable.is_symbol_exist(id->value))
     {
         output::errorDef(yylineno, id->value);
@@ -235,13 +234,13 @@ Statement::Statement(Type *type, Node *id, Exp *exp)
     id_exp->type = type->value;
     id_exp->reg = codeGenerator.freshVar();
     id_exp->value = id->value;
-    cout << "DEBUG " << exp->value << endl;
+    buffer.emit("DEBUG " + exp->value);
     if(type->value == "bool")
     {
-        cout << "DEBUG1 " << endl;
+        buffer.emit("DEBUG1 "
         if(exp->value == "true")
         {
-            cout << "DEBUG2 " << endl;
+            buffer.emit("DEBUG2 "
             buffer.emit(id_exp->reg + "= add i1 1, 0");
         }
         else if(exp->value == "false")
