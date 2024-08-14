@@ -70,10 +70,10 @@ void general::binopCommand(Exp* exp,const Exp &opr1, const Exp &opr2, const stri
     }
     if(op_to_string == "udiv" || op_to_string == "sdiv")
     {
-        buffer.emit("call void @check_division(i32 " + opr2.reg ")");
+        buffer.emit("call void @check_division(i32 " + opr2.reg + ")");
     }
     buffer.emit(exp->reg + " = " + op_to_string + " i32 " + opr1.reg + ", " + opr2.reg);
-    else
+    if(!(op_to_string == "udiv" || op_to_string == "sdiv"))
     {
         if (exp->type == "byte")
         {

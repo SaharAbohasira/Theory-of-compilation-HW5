@@ -37,7 +37,7 @@ public:
 
     void printDefinitions();
 
-    void initialEmits()
+    void initialEmits();
 
 };
 
