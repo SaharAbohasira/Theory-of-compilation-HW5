@@ -84,6 +84,7 @@ general codeGenerator = general();
 
 int main(){
     buffer.initialEmits();
+    emit("define i32 @main(){");
     int parse = yyparse();
     scopeSymbolTable.pop_scope();
     buffer.emit("ret i32 0");
