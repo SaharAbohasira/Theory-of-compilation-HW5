@@ -318,7 +318,6 @@ void is_bool(Node *node) {
 Statement::Statement(const string name, Node *node)
 {
     Exp* exp = dynamic_cast<Exp*>(node);
-    Statement* statement = dynamic_cast<Statement*>(node2);
     if (exp->type != "bool")
     {
         output::errorMismatch(yylineno);
