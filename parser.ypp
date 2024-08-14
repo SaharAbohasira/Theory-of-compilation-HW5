@@ -77,11 +77,16 @@ PUSH:                                                           {/*std::cout << 
 ISBOOL: Exp                                                     {is_bool($1);}
 %%
 
+CodeBuffer buffer = CodeBuffer();
 ScopeSymbolTable scopeSymbolTable = ScopeSymbolTable();
 
 int main(){
+}
+    buffer.initialEmits()
     int parse = yyparse();
     scopeSymbolTable.pop_scope();
+    buffer.printGlobalBuffer();
+    buffer.printCodeBuffer();
     return parse;
 }
 
