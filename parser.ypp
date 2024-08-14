@@ -40,8 +40,8 @@ Statements: Statement                                           {$$ = new Statem
 
 Statement: LBRACE {/*std::cout << "start scope line: " << yylineno<< std::endl;*/ scopeSymbolTable.push_scope();} Statements {/*std::cout << "end scope line: " << yylineno<< std::endl;*/ scopeSymbolTable.pop_scope();} RBRACE                            {$$ = $2;}
            | Type ID SC                                         {$$ = new Statement(dynamic_cast<Type*>($1), $2);}
-           | Type ID ASSIGN Exp SC                              {$$ = new Statement(dynamic_cast<Type*>($1), $2, dynamic_cast<Exp*>($4));}
-           | ID ASSIGN Exp SC                                   {$$ = new Statement($1, dynamic_cast<Exp*>($3));buffer.emit("DEBUG");}
+           | Type ID ASSIGN Exp SC                              {$$ = new Statement(dynamic_cast<Type*>($1), $2, dynamic_cast<Exp*>($4));buffer.emit("DEBUG1");}
+           | ID ASSIGN Exp SC                                   {$$ = new Statement($1, dynamic_cast<Exp*>($3));buffer.emit("DEBUG2");}
            | Call SC                                            {$$ = new Statement(dynamic_cast<Call*>($1));}
            | RETURN SC                                          {$$ = new Statement(new Exp(), true);}
            | IF LPAREN ISBOOL RPAREN PUSH Statement                     {$$ = new Statement("IF", $3);/*std::cout << "end scope line: " << yylineno<< std::endl;*/ scopeSymbolTable.pop_scope(); buffer.emit(dynamic_cast<Exp*>($3)->false_label + ":");}
