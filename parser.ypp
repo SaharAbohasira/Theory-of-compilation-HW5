@@ -81,7 +81,7 @@ CodeBuffer buffer = CodeBuffer();
 ScopeSymbolTable scopeSymbolTable = ScopeSymbolTable();
 
 int main(){
-    buffer.initialEmits()
+    buffer.initialEmits();
     int parse = yyparse();
     scopeSymbolTable.pop_scope();
     buffer.printGlobalBuffer();
