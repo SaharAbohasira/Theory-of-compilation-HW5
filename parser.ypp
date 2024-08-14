@@ -3,6 +3,8 @@
         #include "hw3_output.hpp"
         #include "types.h"
         #include "symbol_table.h"
+        #include "general.h"
+        #include "cg.hpp"
 
         using namespace std;
         using namespace output;
