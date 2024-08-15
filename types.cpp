@@ -35,29 +35,17 @@ Exp::Exp(Node *node1, Node *node2, const std::string op, const std::string type1
         next_label = buffer.freshLabel();
         if(op == "and")
         {
-            if(exp1->reg == 1 && exp2->reg == 1)
-            {
-                buffer.emit(reg + " = add i32 1, 0");
-            }
-            else if(exp1->reg == 0 || exp2->reg == 0)
-            {
-                buffer.emit(reg + " = add i32 0, 0");
-            }
+            buffer.emit(reg " = add i8 " + exp1->reg + ", " + exp2->reg);
+            buffer.emit(reg " = icmp eq i8 2, " + reg);
         }
         else if(op == "or")
         {
-            if(exp1->reg == 1 || exp2->reg == 1)
-            {
-                buffer.emit(reg + " = add i32 1, 0");
-            }
-            else
-            {
-                buffer.emit(reg + " = add i32 0, 0");
-            }
+            buffer.emit(reg " = add i8 " + exp1->reg + ", " + exp2->reg);
+            buffer.emit(reg " = icmp slt i8 1, " + reg);
         }
         if(op == "not")
         {
-                buffer.emit(reg + " = sub i32 1, " + exp1->reg);
+                buffer.emit(reg + " = sub i8 1, " + exp1->reg);
         }
     }
     else if(type1 == "binop")
