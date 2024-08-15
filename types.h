@@ -60,6 +60,7 @@ class Call : public Node {
 public:
     string type;
     Call(Node *funcID, Node *node);
+    string reg = "";
     //Call(Node* funcID);
     virtual ~Call() = default;
 };

@@ -21,6 +21,7 @@ Exp::Exp(Node *node1, Node *node2, const std::string op, const std::string type1
 {
     Exp* exp1 = dynamic_cast<Exp *>(node1);
     Exp* exp2 = dynamic_cast<Exp *>(node2);
+    reg = codeGenerator.freshVar();
     if(type1 == "bool")
     {
         if(exp1->type != "bool" || exp2->type != "bool")
@@ -32,6 +33,32 @@ Exp::Exp(Node *node1, Node *node2, const std::string op, const std::string type1
         true_label = buffer.freshLabel();
         false_label = buffer.freshLabel();
         next_label = buffer.freshLabel();
+        if(op == "and")
+        {
+            if(exp1->reg == 1 && exp2->reg == 1)
+            {
+                buffer.emit(reg + " = add i32 1, 0");
+            }
+            else if(exp1->reg == 0 || exp2->reg == 0)
+            {
+                buffer.emit(reg + " = add i32 0, 0");
+            }
+        }
+        else if(op == "or")
+        {
+            if(exp1->reg == 1 || exp2->reg == 1)
+            {
+                buffer.emit(reg + " = add i32 1, 0");
+            }
+            else
+            {
+                buffer.emit(reg + " = add i32 0, 0");
+            }
+        }
+        if(op == "not")
+        {
+                buffer.emit(reg + " = sub i32 1, " + exp1->reg);
+        }
     }
     else if(type1 == "binop")
     {
@@ -40,11 +67,46 @@ Exp::Exp(Node *node1, Node *node2, const std::string op, const std::string type1
             output::errorMismatch(yylineno);
             exit(0);
         }
-        if (exp1->type == "int" || exp2->type == "int") {
+        if (exp1->type == "int" || exp2->type == "int")
+        {
             this->type = "int";
-        } else {
+            if(op == "+")
+            {
+                buffer.emit(reg + " = add i32 " + exp1->reg + ", " + exp2->reg);
+            }
+            if(op == "-")
+            {
+                buffer.emit(reg + " = sub i32 " + exp1->reg + ", " + exp2->reg);
+            }
+            if(op == "*")
+            {
+                buffer.emit(reg + " = mul i32 " + exp1->reg + ", " + exp2->reg);
+            }
+            if(op == "/")
+            {
+                buffer.emit(reg + " = sdiv i32 " + exp1->reg + ", " + exp2->reg);
+            }
+        } else
+        {
             this->type = "byte";
+            if(op == "+")
+            {
+                buffer.emit(reg + " = add i8 " + exp1->reg + ", " + exp2->reg);
+            }
+            if(op == "-")
+            {
+                buffer.emit(reg + " = sub i8 " + exp1->reg + ", " + exp2->reg);
+            }
+            if(op == "*")
+            {
+                buffer.emit(reg + " = mul i8 " + exp1->reg + ", " + exp2->reg);
+            }
+            if(op == "/")
+            {
+                buffer.emit(reg + " = udiv i8 " + exp1->reg + ", " + exp2->reg);
+            }
         }
+
     }
     else if(type1 == "relop")
     {
@@ -54,6 +116,72 @@ Exp::Exp(Node *node1, Node *node2, const std::string op, const std::string type1
             exit(0);
         }
         this->type = "bool";
+        if(op == "==")
+        {
+            if(exp1->reg == exp2->reg)
+            {
+                buffer.emit(reg + " = add i32 1, 0");
+            }
+            else
+            {
+                buffer.emit(reg + " = add i32 0, 0");
+            }
+        }
+        else if(op == "!=")
+        {
+            if(exp1->reg == exp2->reg)
+            {
+                buffer.emit(reg + " = add i32 0, 0");
+            }
+            else
+            {
+                buffer.emit(reg + " = add i32 1, 0");
+            }
+        }
+        else if(op == "<")
+        {
+            if(exp1->reg < exp2->reg)
+            {
+                buffer.emit(reg + " = add i32 1, 0");
+            }
+            else
+            {
+                buffer.emit(reg + " = add i32 0, 0");
+            }
+        }
+        else if(op == ">")
+        {
+            if(exp1->reg > exp2->reg)
+            {
+                buffer.emit(reg + " = add i32 1, 0");
+            }
+            else
+            {
+                buffer.emit(reg + " = add i32 0, 0");
+            }
+        }
+        else if(op == "<=")
+        {
+            if(exp1->reg <= exp2->reg)
+            {
+                buffer.emit(reg + " = add i32 1, 0");
+            }
+            else
+            {
+                buffer.emit(reg + " = add i32 0, 0");
+            }
+        }
+        else if(op == ">=")
+        {
+            if(exp1->reg >= exp2->reg)
+            {
+                buffer.emit(reg + " = add i32 1, 0");
+            }
+            else
+            {
+                buffer.emit(reg + " = add i32 0, 0");
+            }
+        }
     }
 }
 
@@ -67,6 +195,16 @@ Exp::Exp(Node *node, bool isVar): Node(), isVar(isVar)
     Symbol* s = scopeSymbolTable.get_symbol(node->value);
     value = node->value;
     type = s->type;
+    this->isVar = isVar;
+    if(!isVar)
+    {
+        Call* function = dynamic_cast<Call*>(node);
+    }
+    else
+    {
+        reg = codeGenerator.freshVar();
+        buffer.emit(reg + "= add i1 0, 0");
+    }
 }
 
 Exp::Exp(const string type, Node *terminal): Node(terminal->value), type(type), isVar(false)
@@ -195,6 +333,18 @@ Call::Call(Node *funcID, Node *node)
     }
     this->value = symbol->name;
     this->type = symbol->type;
+    if(type == "void" && exp->type == "int" && value == "printi")
+    {
+        buffer.emit("call void @" + value + "(i32 " + exp->reg + ")");
+    }
+    else if(type == "void" && exp->type == "string" && value == "print")
+    {
+        buffer.emit("call void @" + value + "(i8* " + exp->reg + ")");
+    }
+    else if(type == "int" && exp->type == "int" && value == "readi")
+    {
+        buffer.emit("call int @" + value + "(i32 " + exp->reg + ")");
+    }
 }
 
 /*
