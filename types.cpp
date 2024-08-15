@@ -35,13 +35,13 @@ Exp::Exp(Node *node1, Node *node2, const std::string op, const std::string type1
         next_label = buffer.freshLabel();
         if(op == "and")
         {
-            buffer.emit(reg " = add i8 " + exp1->reg + ", " + exp2->reg);
-            buffer.emit(reg " = icmp eq i8 2, " + reg);
+            buffer.emit(reg + " = add i8 " + exp1->reg + ", " + exp2->reg);
+            buffer.emit(reg + " = icmp eq i8 2, " + reg);
         }
         else if(op == "or")
         {
-            buffer.emit(reg " = add i8 " + exp1->reg + ", " + exp2->reg);
-            buffer.emit(reg " = icmp slt i8 1, " + reg);
+            buffer.emit(reg + " = add i8 " + exp1->reg + ", " + exp2->reg);
+            buffer.emit(reg + " = icmp slt i8 1, " + reg);
         }
         if(op == "not")
         {
