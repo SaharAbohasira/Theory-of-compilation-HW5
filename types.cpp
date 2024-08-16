@@ -543,3 +543,14 @@ Label::Label() : Node("")
     false_label = buffer.freshLabel() + "_false";
     next_label = buffer.freshLabel() + "_next";
 }
+
+IF_ELSE::IF_ELSE(Exp* exp, Label* label)
+{
+    this->true_label = label->true_label;
+    this->false_label = label->false_label;
+    this->next_label = label->next_label;
+    this->isVar = exp->isVar;
+    this->reg = exp->reg;
+    this->value = exp->value;
+    this->type = exp->type;
+}
