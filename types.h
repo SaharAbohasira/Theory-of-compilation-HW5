@@ -8,6 +8,8 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include "cg.hpp"
+#include "general.h"
 
 using std::string;
 using std::vector;
