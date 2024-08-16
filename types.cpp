@@ -30,9 +30,9 @@ Exp::Exp(Node *node1, Node *node2, const std::string op, const std::string type1
             exit(0);
         }
         this->type = "bool";
-        //true_label = buffer.freshLabel();
-        //false_label = buffer.freshLabel();
-        //next_label = buffer.freshLabel();
+        true_label = buffer.freshLabel();
+        false_label = buffer.freshLabel();
+        next_label = buffer.freshLabel();
         if(op == "and")
         {
             buffer.emit(reg + " = add i8 " + exp1->reg + ", " + exp2->reg);

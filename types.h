@@ -40,9 +40,9 @@ public:
     string type;
     bool isVar;
     string reg = "";
-    string true_label = buffer.Label();
-    string false_label = buffer.freshLabel();
-    string next_label = buffer.freshLabel();
+    string true_label = "";
+    string false_label = "";
+    string next_label = "";
     Exp(Exp *exp): Node(exp->value), type(exp->type){};
     Exp(Node *node, bool isVar);
     Exp(): Node(), type("void"), isVar(false){};
