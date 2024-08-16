@@ -79,5 +79,3 @@ void CodeBuffer::initialEmits()
     declareFuncs();
     printDefinitions();
 }
-
-void CodeBuffer::next_
