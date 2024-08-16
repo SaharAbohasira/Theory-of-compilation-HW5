@@ -102,6 +102,13 @@ void ScopeSymbolTable::push_scope(bool is_loop, string return_type)
     SymbolTable* scope = new SymbolTable(offset_vector.back(), is_loop, return_type);
     this->stack.push_back(scope);
     offset_vector.push_back(stack.back()->scope_offset);
+    if(table_stack.size() > 0)
+    {
+        new_scope->rbp = stack.back()->rbp;
+    }
+    else {
+        new_scope->rbp = "";
+    }
 }
 
 SymbolTable *ScopeSymbolTable::current_scope()
