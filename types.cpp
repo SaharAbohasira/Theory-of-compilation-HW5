@@ -194,7 +194,7 @@ Exp::Exp(Node *node, bool isVar): Node(), isVar(isVar)
         string reg_ptr = codeGenerator.freshVar();
         //buffer.emit(reg + "= add i1 0, 0 check")
         buffer.emit(reg_ptr + " = getelementptr i32, i32* " + scopeSymbolTable.current_scope()->rbp + ", i32 " + std::to_string(s->offset));
-        buffer.emit(reg + " = load i32, i32* " + var_ptr);
+        buffer.emit(reg + " = load i32, i32* " + reg_ptr);
     }
 }
 
@@ -381,11 +381,12 @@ Statement::Statement(Type *type, Node *id) : Node()
     else
     {
         temp_exp->value = "0";
-        reg_ptr = codeGenerator.freshVar();
+        string reg_ptr = codeGenerator.freshVar();
         buffer.emit(temp_exp->reg + " = add i32 " + temp_exp->value + ", 0");
-        buffer.emit(var_ptr + " = getelementptr i32, i32* " + scopeSymbolTable.current_scope()->rbp + ", i32 " + std::to_string(s->offset));
-        buffer.emit("store i32 " + temp_exp.reg + ", i32* " + reg_ptr);
+        buffer.emit(reg_ptr + " = getelementptr i32, i32* " + scopeSymbolTable.current_scope()->rbp + ", i32 " + std::to_string(s->offset));
+        buffer.emit("store i32 " + temp_exp->reg + ", i32* " + reg_ptr);
     }
+    delete temp_exp;
 }
 
 Statement::Statement(Type *type, Node *id, Exp *exp)
