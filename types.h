@@ -99,10 +99,10 @@ public:
 };
 
 class Label: public Node{
+public:
     string true_label;
     string false_label;
     string next_label;
-public:
     Label();
     virtual ~Label() = default;
 };
