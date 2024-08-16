@@ -538,7 +538,7 @@ Statement::Statement(Node *node)
 
 Label::Label() : Node("")
 {
-    true_label = buffer.freshLabel();
-    false_label = buffer.freshLabel();
-    next_label = buffer.freshLabel();
+    true_label = buffer.freshLabel() + "_true";
+    false_label = buffer.freshLabel() + "_false";
+    next_label = buffer.freshLabel() + "_next";
 }
