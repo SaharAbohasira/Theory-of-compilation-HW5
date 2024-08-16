@@ -225,7 +225,7 @@ Exp::Exp(const string type, Node *terminal): Node(terminal->value), type(type), 
         reg = codeGenerator.freshVar();
         if(terminal->value == "true")
         {
-            buffer.emit(reg + " = add i32 1, 0");
+            buffer.emit(reg + " = add i32 1, 0 check2");
         }
         else if(terminal->value == "false")
         {
