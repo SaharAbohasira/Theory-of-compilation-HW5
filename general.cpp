@@ -152,10 +152,5 @@ void general::returnCommand(string &type, string &reg)          //TODO: check if
 
 void general::if_else_code(Exp* exp, Label* label)
 {
-    if (exp->type != "bool")
-    {
-        output::errorMismatch(yylineno);
-        exit(0);
-    }
     buffer.emit("br i8 " + exp->reg + ", label " + label->true_label + ", label "+ label->false_label);
 }
