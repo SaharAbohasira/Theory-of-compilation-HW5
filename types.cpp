@@ -222,6 +222,8 @@ Exp::Exp(const string type, Node *terminal): Node(terminal->value), type(type), 
     }
     else if(type == "bool")
     {
+        Exp* exp = dynamic_cast<Exp*>(terminal);
+        buffer.emit("br i8 " + exp->reg + ", label" + exp->true_label + ", label "+ exp->false_label);
         reg = codeGenerator.freshVar();
         if(terminal->value == "true")
         {
