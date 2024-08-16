@@ -515,7 +515,7 @@ Statement::Statement(const string name, Node *node)
         output::errorMismatch(yylineno);
         exit(0);
     }
-    buffer.emit("br i8 " + exp->reg + ", label" + exp->true_label + ", label "+ exp->false_label);
+    buffer.emit("br i8 " + exp->reg + ", label " + exp->true_label + ", label "+ exp->false_label);
 }
 
 Statement::Statement(Node *node)
