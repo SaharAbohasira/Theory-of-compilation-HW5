@@ -12,6 +12,8 @@
 using std::string;
 using std::vector;
 
+extern CodeBuffer buffer;
+
 class Node
 {
 public:
@@ -38,9 +40,9 @@ public:
     string type;
     bool isVar;
     string reg = "";
-    string true_label = "";
-    string false_label = "";
-    string next_label = "";
+    string true_label = buffer.freshLabel();
+    string false_label = buffer.freshLabel();
+    string next_label = buffer.freshLabel();
     Exp(Exp *exp): Node(exp->value), type(exp->type){};
     Exp(Node *node, bool isVar);
     Exp(): Node(), type("void"), isVar(false){};

@@ -30,9 +30,9 @@ Exp::Exp(Node *node1, Node *node2, const std::string op, const std::string type1
             exit(0);
         }
         this->type = "bool";
-        true_label = buffer.freshLabel();
-        false_label = buffer.freshLabel();
-        next_label = buffer.freshLabel();
+        //true_label = buffer.freshLabel();
+        //false_label = buffer.freshLabel();
+        //next_label = buffer.freshLabel();
         if(op == "and")
         {
             buffer.emit(reg + " = add i8 " + exp1->reg + ", " + exp2->reg);
@@ -220,7 +220,7 @@ Exp::Exp(const string type, Node *terminal): Node(terminal->value), type(type), 
         reg = codeGenerator.freshVar();
         buffer.emit(reg + " = add i32 " + value + ", 0");
     }
-    else if(type == "bool")
+    else if(type == "bool")OHEV494euxe
     {
         reg = codeGenerator.freshVar();
         if(terminal->value == "true")
@@ -400,13 +400,11 @@ Statement::Statement(Type *type, Node *id, Exp *exp)
     id_exp->type = type->value;
     id_exp->reg = codeGenerator.freshVar();
     id_exp->value = id->value;
-    buffer.emit("DEBUG " + exp->value + " " + type->value + "isEmpty");
+    //buffer.emit("DEBUG " + exp->value + " " + type->value + "isEmpty");
     if(type->value == "bool")
     {
-        buffer.emit("DEBUG1* ");
         if(exp->value == "true")
         {
-            buffer.emit("DEBUG2 ");
             buffer.emit(id_exp->reg + "= add i1 1, 0");
         }
         else if(exp->value == "false")
