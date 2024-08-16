@@ -220,7 +220,7 @@ Exp::Exp(const string type, Node *terminal): Node(terminal->value), type(type), 
         reg = codeGenerator.freshVar();
         buffer.emit(reg + " = add i32 " + value + ", 0");
     }
-    else if(type == "bool")OHEV494euxe
+    else if(type == "bool")
     {
         reg = codeGenerator.freshVar();
         if(terminal->value == "true")
