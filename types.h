@@ -98,6 +98,15 @@ public:
     virtual ~Statements() = default;
 };
 
+class Label: public Node{
+    string true_label;
+    string false_label;
+    string next_label;
+public:
+    Label();
+    virtual ~Label() = default;
+};
+
 void is_bool(Node* node);
 
 

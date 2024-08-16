@@ -535,3 +535,10 @@ Statement::Statement(Node *node)
         }
     }
 }
+
+Label::Label() : Node("")
+{
+    true_label = buffer.freshLabel();
+    false_label = buffer.freshLabel();
+    next_label = buffer.freshLabel();
+}
