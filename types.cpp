@@ -190,8 +190,8 @@ Exp::Exp(Node *node, bool isVar): Node(), isVar(isVar)
     }
     else
     {
-        reg = codeGenerator.freshVar();
-        buffer.emit(reg + "= add i1 0, 0");
+        reg = dynamic_cast<Exp*>(node)->reg;
+        buffer.emit("check " + reg);
     }
 }
 
