@@ -27,7 +27,7 @@ public:
     void returnCommand(string &type, string &val);
     void conditionBranch(string &true_label, string &false_label);
     void globalCode();
-    void if_else_code(Exp* exp, Label* label)
+    void if_else_code(Exp* exp, Label* label);
 
 };
 
