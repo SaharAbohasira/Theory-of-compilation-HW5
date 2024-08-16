@@ -108,6 +108,7 @@ public:
 };
 
 class IF_ELSE: public Exp{
+public:
     IF_ELSE(Exp* exp, Label* label);
     virtual ~IF_ELSE() = default;
 };
