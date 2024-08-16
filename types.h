@@ -12,7 +12,6 @@
 using std::string;
 using std::vector;
 
-extern CodeBuffer buffer;
 
 class Node
 {
