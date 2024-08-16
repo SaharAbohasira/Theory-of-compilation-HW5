@@ -8,8 +8,6 @@
 #include <string>
 #include <vector>
 #include <iostream>
-#include "cg.hpp"
-#include "general.h"
 
 using std::string;
 using std::vector;
@@ -42,7 +40,7 @@ public:
     string type;
     bool isVar;
     string reg = "";
-    string true_label = buffer.freshLabel();
+    string true_label = buffer.Label();
     string false_label = buffer.freshLabel();
     string next_label = buffer.freshLabel();
     Exp(Exp *exp): Node(exp->value), type(exp->type){};
