@@ -422,7 +422,7 @@ Statement::Statement(Type *type, Node *id) : Node()
     }
     value = type->value;
     scopeSymbolTable.add_symbol(id->value, type->type, false,"", id->reg);
-    Symbol *s = scopeSymbolTable.get_symbol(exp->value);
+    Symbol *s = scopeSymbolTable.get_symbol(id->value);
     Exp* temp_exp = new Exp();
     if(value == "bool")
     {
@@ -490,6 +490,7 @@ Statement::Statement(Type *type, Node *id, Exp *exp)
         exit(0);
     }
     scopeSymbolTable.add_symbol(id->value, type->type, false, "", id->reg);
+    Symbol *s = scopeSymbolTable.get_symbol(id->value);
 
     if(type->type == "bool")
     {
