@@ -454,8 +454,8 @@ Statement::Statement(Type *type, Node *id) : Node()
         temp_exp->value = "false";
         string reg_ptr = codeGenerator.freshVar();
         buffer.emit(temp_exp->reg + " = add i1 0, 0");
-        buffer.emit(reg_ptr + " = getelementptr i1, i32* " + scopeSymbolTable.current_scope()->rbp + ", i32 " + std::to_string(s->offset));
-        buffer.emit("store i1 " + temp_exp->reg + ", i32* " + reg_ptr);
+        buffer.emit(reg_ptr + " = getelementptr i1, i1* " + scopeSymbolTable.current_scope()->rbp + ", i32 " + std::to_string(s->offset));
+        buffer.emit("store i1 " + temp_exp->reg + ", i1* " + reg_ptr);
     }
     else if(value == "int")
     {
@@ -520,8 +520,8 @@ Statement::Statement(Type *type, Node *id, Exp *exp)
     if(type->type == "bool")
     {
         string reg_ptr = codeGenerator.freshVar();
-        buffer.emit(reg_ptr + " = getelementptr i1, i32* " + scopeSymbolTable.current_scope()->rbp + ", i32 " + std::to_string(s->offset));
-        buffer.emit("store i1 " + exp->reg + ", i32* " + reg_ptr);
+        buffer.emit(reg_ptr + " = getelementptr i1, i1* " + scopeSymbolTable.current_scope()->rbp + ", i32 " + std::to_string(s->offset));
+        buffer.emit("store i1 " + exp->reg + ", i1* " + reg_ptr);
     }
     else if(type->type == "int")
     {
@@ -614,8 +614,8 @@ Statement::Statement(Node *id, Exp *exp)
     if(symbol->type == "bool")
     {
         string reg_ptr = codeGenerator.freshVar();
-        buffer.emit(reg_ptr + " = getelementptr i1, i32* " + scopeSymbolTable.current_scope()->rbp + ", i32 " + std::to_string(symbol->offset));
-        buffer.emit("store i1 " + exp->reg + ", i32* " + reg_ptr);
+        buffer.emit(reg_ptr + " = getelementptr i1, i1* " + scopeSymbolTable.current_scope()->rbp + ", i32 " + std::to_string(symbol->offset));
+        buffer.emit("store i1 " + exp->reg + ", i1* " + reg_ptr);
     }
     else if(symbol->type == "int")
     {
