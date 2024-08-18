@@ -38,7 +38,7 @@ Program: Statements                                             {$$ = new Progra
 Statements: Statement                                           {$$ = new Statements(dynamic_cast<Statement*>($1));}
             | Statements Statement                              {$$ = new Statements(dynamic_cast<Statements*>($1),dynamic_cast<Statement*>($2));}
 
-Statement: LBRACE {/*std::cout << "start scope line: " << yylineno<< std::endl;*/ scopeSymbolTable.push_scope();} Statements {/*std::cout << "end scope line: " << yylineno<< std::endl;*/ scopeSymbolTable.pop_scope();} RBRACE                            {$$ = $2;}
+Statement: LBRACE {/*std::cout << "start scope line: " << yylineno<< std::endl;*/ scopeSymbolTable.push_scope();} Statements {/*std::cout << "end scope line: " << yylineno<< std::endl;*/ scopeSymbolTable.pop_scope();} RBRACE {$$ = new Statement(); delete $3;}
            | Type ID SC                                         {$$ = new Statement(dynamic_cast<Type*>($1), $2);}
            | Type ID ASSIGN Exp SC                              {$$ = new Statement(dynamic_cast<Type*>($1), $2, dynamic_cast<Exp*>($4));}
            | ID ASSIGN Exp SC                                   {$$ = new Statement($1, dynamic_cast<Exp*>($3));}

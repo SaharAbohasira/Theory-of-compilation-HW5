@@ -532,10 +532,6 @@ Statement::Statement(const string name, Node *node)
         output::errorMismatch(yylineno);
         exit(0);
     }
-    if(name == "IF")
-    {
-        std::cout << "HI" << endl;
-    }
     //buffer.emit("br i8 " + exp->reg + ", label " + exp->true_label + ", label "+ exp->false_label);
 }
 
