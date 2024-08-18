@@ -115,69 +115,27 @@ Exp::Exp(Node *node1, Node *node2, const std::string op, const std::string type1
         this->type = "bool";
         if(op == "==")
         {
-            if(exp1->reg == exp2->reg)
-            {
-                buffer.emit(reg + " = add i1 1, 0");
-            }
-            else
-            {
-                buffer.emit(reg + " = add i1 0, 0");
-            }
+            buffer.emit(reg + "= imcp eq i1 " + exp1->reg +", " + exp2->reg);
         }
         else if(op == "!=")
         {
-            if(exp1->reg == exp2->reg)
-            {
-                buffer.emit(reg + " = add i1 0, 0");
-            }
-            else
-            {
-                buffer.emit(reg + " = add i1 1, 0");
-            }
+            buffer.emit(reg + "= imcp neq i1 " + exp1->reg +", " + exp2->reg);
         }
         else if(op == "<")
         {
-            if(exp1->reg < exp2->reg)
-            {
-                buffer.emit(reg + " = add i1 1, 0");
-            }
-            else
-            {
-                buffer.emit(reg + " = add i1 0, 0");
-            }
+            buffer.emit(reg + "= imcp slt i1 " + exp1->reg +", " + exp2->reg);
         }
         else if(op == ">")
         {
-            if(exp1->reg > exp2->reg)
-            {
-                buffer.emit(reg + " = add i1 1, 0");
-            }
-            else
-            {
-                buffer.emit(reg + " = add i1 0, 0");
-            }
+            buffer.emit(reg + "= imcp sgt i1 " + exp1->reg +", " + exp2->reg);
         }
         else if(op == "<=")
         {
-            if(exp1->reg <= exp2->reg)
-            {
-                buffer.emit(reg + " = add i1 1, 0");
-            }
-            else
-            {
-                buffer.emit(reg + " = add i1 0, 0");
-            }
+            buffer.emit(reg + "= imcp sle i1 " + exp1->reg +", " + exp2->reg);
         }
         else if(op == ">=")
         {
-            if(exp1->reg >= exp2->reg)
-            {
-                buffer.emit(reg + " = add i1 1, 0");
-            }
-            else
-            {
-                buffer.emit(reg + " = add i1 0, 0");
-            }
+            buffer.emit(reg + "= imcp gte i1 " + exp1->reg +", " + exp2->reg);
         }
     }
 }
