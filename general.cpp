@@ -16,7 +16,7 @@ string general::freshVar()
 
 string general::globalFreshVar()
 {
-    string reg = "&var_" + std::to_string(current_register_num);
+    string reg = "@var_" + std::to_string(current_register_num);
     current_register_num ++;
     return reg;
 }
