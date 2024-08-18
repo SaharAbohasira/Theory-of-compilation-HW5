@@ -201,7 +201,7 @@ Exp::Exp(Node *node, bool isVar): Node(), isVar(isVar)
     else
     {
         reg = codeGenerator.freshVar();
-        buffer.emit(reg + " = add i32 " + s->reg + ", 0 d4");
+        buffer.emit(reg + " = add i32 " + s->reg + ", 0");
         //reg = codeGenerator.freshVar();
         //string reg_ptr = codeGenerator.freshVar();
         //buffer.emit(reg + "= add i1 0, 0 check")
@@ -240,7 +240,7 @@ Exp::Exp(const string type, Node *terminal): Node(terminal->value), type(type)
         reg = codeGenerator.freshVar();
         if(terminal->value == "true")
         {
-            buffer.emit(reg + " = add i32 1, 0 check2");
+            buffer.emit(reg + " = add i32 1, 0");
         }
         else if(terminal->value == "false")
         {
@@ -416,7 +416,7 @@ Statement::Statement(Type *type, Node *id, Exp *exp)
     //id_exp->type = type->value;
     //id_exp->reg = codeGenerator.freshVar();
     //id_exp->value = id->value;
-    buffer.emit(id->reg + "= add i32 " + exp->reg +", 0 d2");
+    buffer.emit(id->reg + "= add i32 " + exp->reg +", 0");
     //buffer.emit("DEBUG " + exp->value + " " + type->value + "isEmpty");
     /*if(type->value == "bool")
     {
@@ -558,9 +558,9 @@ Statement::Statement(Node *node)
 
 Label::Label() : Node("")
 {
-    true_label = buffer.freshLabel() + "_true";
-    false_label = buffer.freshLabel() + "_false";
-    next_label = buffer.freshLabel() + "_next";
+    true_label = buffer.freshLabel(); // + "_true";
+    false_label = buffer.freshLabel(); // + "_false";
+    next_label = buffer.freshLabel(); // + "_next";
 }
 
 IF_ELSE::IF_ELSE(Exp* exp, Label* label)
