@@ -210,7 +210,7 @@ Exp::Exp(Node *node, bool isVar): Node(), isVar(isVar)
     }
 }
 
-Exp::Exp(const string type, Node *terminal): Node(terminal->value), type(type), isVar(false)
+Exp::Exp(const string type, Node *terminal): Node(terminal->value), type(type)
 {
     if(type == "byte")
     {
@@ -532,6 +532,8 @@ Statement::Statement(const string name, Node *node)
         output::errorMismatch(yylineno);
         exit(0);
     }
+    reg = codeGenerator.freshVar();
+
     //buffer.emit("br i8 " + exp->reg + ", label " + exp->true_label + ", label "+ exp->false_label);
 }
 
