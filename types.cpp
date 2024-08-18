@@ -242,21 +242,26 @@ Exp::Exp(const string type, Node *terminal): Node(terminal->value), type(type)
         buffer.emit(temp_reg + ".ptr = getelementptr [" + to_string(str.length()) + " x i8]");
         reg = temp_reg + ".ptr";
     }
-    else if(type == "byte" || type == "int")
+    else if(type == "int")
     {
         reg = codeGenerator.freshVar();
         buffer.emit(reg + " = add i32 " + value + ", 0");
+    }
+    else if(type == "byte")
+    {
+        reg = codeGenerator.freshVar();
+        buffer.emit(reg + " = add i8 " + value + ", 0");
     }
     else if(type == "bool")
     {
         reg = codeGenerator.freshVar();
         if(terminal->value == "true")
         {
-            buffer.emit(reg + " = add i32 1, 0");
+            buffer.emit(reg + " = add i8 1, 0");
         }
         else if(terminal->value == "false")
         {
-            buffer.emit(reg + " = add i32 0, 0");
+            buffer.emit(reg + " = add i8 0, 0");
         }
 
     }
@@ -394,7 +399,14 @@ Statement::Statement(Type *type, Node *id) : Node()
     }
     value = type->value;
     scopeSymbolTable.add_symbol(id->value, type->type, false,"", id->reg);
-    buffer.emit(id->reg + " = add i32 0, 0 d1");
+    if(value == "int")
+    {
+        buffer.emit(id->reg + " = add i32 0, 0");
+    }
+    else if(value == "byte" || value == "bool")
+    {
+        buffer.emit(id->reg + " = add i8 0, 0");
+    }
 }
 
 Statement::Statement(Type *type, Node *id, Exp *exp)
@@ -428,7 +440,18 @@ Statement::Statement(Type *type, Node *id, Exp *exp)
     //id_exp->type = type->value;
     //id_exp->reg = codeGenerator.freshVar();
     //id_exp->value = id->value;
-    buffer.emit(id->reg + "= add i32 " + exp->reg +", 0");
+    if(value == "int")
+    {
+        buffer.emit(id->reg + " = add i32 " + exp->reg + ", 0");
+    }
+    else if(value == "byte" || value == "bool")
+    {
+        buffer.emit(id->reg + " = add i8 " + exp->reg + ", 0");
+    }
+    else if(value == "string")
+    {
+        buffer.emit(reg + " = add i8* " + exp->reg +", 0");
+    }
     //buffer.emit("DEBUG " + exp->value + " " + type->value + "isEmpty");
     /*if(type->value == "bool")
     {
