@@ -1,10 +1,5 @@
 
 	bool val=true;
-        if (val)
-		print("val is true");
-	else {
-		print("val is false");
-	}
 
 	if(true)
     {
