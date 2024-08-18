@@ -76,7 +76,7 @@ Exp: LPAREN Exp RPAREN                                          {$$ = new Exp(dy
 
 PUSH:                                                           {/*std::cout << "start scope line: " << yylineno << std::endl;*/ scopeSymbolTable.push_scope();}
 ISBOOL: Exp                                                     {is_bool($1);}
-IF_ELSE: IF LPAREN ISBOOL RPAREN PUSH Label                     {buffer.emit("br i8 " + dynamic_cast<Exp*>($3)->reg + ", label " + dynamic_cast<Label*>($6)->true_label + ", label "+ dynamic_cast<Label*>($6)->false_label); $$ = new IF_ELSE(dynamic_cast<Exp*>($3),dynamic_cast<Label*>($6)); buffer.emit(dynamic_cat<Label*>($6).true_label + ":");}
+IF_ELSE: IF LPAREN ISBOOL RPAREN PUSH Label                     {buffer.emit("br i8 " + dynamic_cast<Exp*>($3)->reg + ", label " + dynamic_cast<Label*>($6)->true_label + ", label "+ dynamic_cast<Label*>($6)->false_label); $$ = new IF_ELSE(dynamic_cast<Exp*>($3),dynamic_cast<Label*>($6)); buffer.emit(dynamic_cast<Label*>($6).true_label + ":");}
 Label:                                                          {$$ = new Label();}
 %%
 
