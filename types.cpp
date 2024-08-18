@@ -200,7 +200,8 @@ Exp::Exp(Node *node, bool isVar): Node(), isVar(isVar)
     }
     else
     {
-        buffer.emit(reg + " = add i32 " + node->reg + ", 0");
+        reg = codeGenerator.freshVar();
+        buffer.emit(reg + " = add i32 " + node->reg + ", 0 d4");
         //reg = codeGenerator.freshVar();
         //string reg_ptr = codeGenerator.freshVar();
         //buffer.emit(reg + "= add i1 0, 0 check")
