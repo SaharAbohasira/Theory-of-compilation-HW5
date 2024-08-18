@@ -6,3 +6,12 @@
 		print("val is false");
 	}
 
+	if(true)
+    {
+        print("true");
+    }
+
+    if(false or false and  true)
+    {
+        print("true");
+    }
