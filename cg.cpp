@@ -80,6 +80,4 @@ void CodeBuffer::initialEmits()
     codeGenerator.globalCode();
     declareFuncs();
     printDefinitions();
-    scopeSymbolTable.current_scope()->rbp = codeGenerator.freshVar();
-    emit(scopeSymbolTable.current_scope()->rbp + " = add i32 0, 0");
 }

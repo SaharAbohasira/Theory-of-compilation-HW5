@@ -90,6 +90,8 @@ int main(){
     //yydebug = 1;
     buffer.initialEmits();
     buffer.emit("define i32 @main(){");
+    scopeSymbolTable.current_scope()->rbp = codeGenerator.freshVar();
+    emit(scopeSymbolTable.current_scope()->rbp + " = add i32 0, 0");
     int parse = yyparse();
     scopeSymbolTable.pop_scope();
     buffer.emit("ret i32 0");
