@@ -30,8 +30,7 @@
 %left MULT_DIV
 %right NOT
 %left LPAREN RPAREN LBRACE RBRACE
-%nonassoc LOWER_THAN_ELSE
-%nonassoc ELSE
+%right ELSE
 
 %%
 
@@ -46,8 +45,8 @@ Statement: LBRACE {scopeSymbolTable.push_scope();} Statements {scopeSymbolTable.
            | ID ASSIGN Exp SC                                   {$$ = new Statement($1, dynamic_cast<Exp*>($3));}
            | Call SC                                            {$$ = new Statement(dynamic_cast<Call*>($1));}
            | RETURN SC                                          {$$ = new Statement(new Exp(), true);}
-           | IF LPAREN ISBOOL RPAREN PUSH Label Statement  %prec LOWER_THAN_ELSE     {$$ = new Statement("IF", $3); scopeSymbolTable.pop_scope(); buffer.emit(dynamic_cast<Label*>($6)->false_label + ":");}
-           | IF LPAREN ISBOOL RPAREN PUSH Label {std::cout <<"Hi" << endl;} Statement ELSE {/*std::cout << "end scope line: " << yylineno<< std::endl;*/ scopeSymbolTable.pop_scope(); buffer.emit("br label " + dynamic_cast<IF_ELSE*>($1)->label->next_label); buffer.emit(dynamic_cast<IF_ELSE*>($1)->label->false_label + ":");} PUSH Statement      {$$ = new Statement("IF_ELSE", dynamic_cast<IF_ELSE*>($1)->exp);/*std::cout << "end scope line: " << yylineno<< std::endl;*/ scopeSymbolTable.pop_scope(); buffer.emit(dynamic_cast<IF_ELSE*>($1)->label->next_label + ":");}
+           | IF LPAREN ISBOOL RPAREN PUSH Label Statement       {$$ = new Statement("IF", $3); scopeSymbolTable.pop_scope(); buffer.emit(dynamic_cast<Label*>($6)->false_label + ":");}
+           | IF_ELSE Statement ELSE {/*std::cout << "end scope line: " << yylineno<< std::endl;*/ scopeSymbolTable.pop_scope(); buffer.emit("br label " + dynamic_cast<IF_ELSE*>($1)->label->next_label); buffer.emit(dynamic_cast<IF_ELSE*>($1)->label->false_label + ":");} PUSH Statement      {$$ = new Statement("IF_ELSE", dynamic_cast<IF_ELSE*>($1)->exp);/*std::cout << "end scope line: " << yylineno<< std::endl;*/ scopeSymbolTable.pop_scope(); buffer.emit(dynamic_cast<IF_ELSE*>($1)->label->next_label + ":");}
            | WHILE LPAREN {dynamic_cast<Statement*>($$)->whileLabel = buffer.freshLabel(); whileLabelStack.push_back(dynamic_cast<Statement*>($$)->whileLabel);} ISBOOL {whileNextStack.push_back(dynamic_cast<Exp*>($3)->false_label);} RPAREN {/*std::cout << "start scope line: " << yylineno<< std::endl;*/ scopeSymbolTable.push_scope(true); buffer.emit(dynamic_cast<Exp*>($3)->true_label + ":");} Statement                  {$$ = new Statement("WHILE", $3);/*std::cout << "end scope line: " << yylineno<< std::endl;*/ scopeSymbolTable.pop_scope(); buffer.emit("br label " + dynamic_cast<Statement*>($$)->whileLabel); buffer.emit(dynamic_cast<Exp*>($3)->false_label + ":"); whileLabelStack.pop_back();}
            | BREAK SC                                           {$$ = new Statement($1); buffer.emit("br label1" + whileNextStack.back()); whileNextStack.pop_back();}
            | CONTINUE SC                                        {$$ = new Statement($1); buffer.emit("br label2" + whileLabelStack.back());}
