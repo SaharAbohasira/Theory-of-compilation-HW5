@@ -78,8 +78,8 @@ void CodeBuffer::printDefinitions()
 void CodeBuffer::initialEmits()
 {
     codeGenerator.globalCode();
-    scopeSymbolTable.current_scope()->rbp = codeGenerator.freshVar();
-    emit(scopeSymbolTable.current_scope()->rbp + " = add i32 0, 0");
     declareFuncs();
     printDefinitions();
+    scopeSymbolTable.current_scope()->rbp = codeGenerator.freshVar();
+    emit(scopeSymbolTable.current_scope()->rbp + " = add i32 0, 0");
 }
