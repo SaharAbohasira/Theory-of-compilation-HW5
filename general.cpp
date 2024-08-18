@@ -152,5 +152,5 @@ void general::returnCommand(string &type, string &reg)          //TODO: check if
 
 void general::if_else_code(Exp* exp, Label* label)
 {
-    buffer.emit("br i8 " + exp->reg + ", label " + label->true_label + ", label "+ label->false_label);
+    buffer.emit("br i1 " + exp->reg + ", label " + label->true_label + ", label "+ label->false_label);
 }
