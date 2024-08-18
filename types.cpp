@@ -316,6 +316,28 @@ Exp::Exp(Type* type1, Exp* exp): Node(exp->value), type(type1->type)
     }*/
 }
 
+Exp::Exp(Exp *exp): Node(exp->value), type(exp->type)
+{
+    reg = codeGenerator.freshVar();
+    if(type == "int")
+    {
+        buffer.emit(reg + " = add i32 " + exp->reg + ", 0");
+    }
+    else if(type == "byte")
+    {
+        buffer.emit(reg + " = add i8 " + exp->reg + ", 0");
+    }
+    else if(type == "bool")
+    {
+        buffer.emit(reg + " = add i1 " + exp->reg + ", 0");
+    }
+    else if(type == "string")
+    {
+        buffer.emit(reg + " = add i8* " + exp->reg +", 0");
+    }
+
+}
+
 
 string stringToUpper(const string &s)
 {
