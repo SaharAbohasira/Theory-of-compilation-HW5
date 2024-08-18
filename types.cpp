@@ -218,7 +218,6 @@ Exp::Exp(Node *node, bool isVar): Node(), isVar(isVar)
         }*/
         reg = codeGenerator.freshVar();
         string reg_ptr = codeGenerator.freshVar();
-        buffer.emit(reg + "= add i1 0, 0");
         buffer.emit(reg_ptr + " = getelementptr i32, i32* " + scopeSymbolTable.current_scope()->rbp + ", i32 " + std::to_string(s->offset));
         buffer.emit(reg + " = load i32, i32* " + reg_ptr);
     }
@@ -423,7 +422,33 @@ Statement::Statement(Type *type, Node *id) : Node()
     }
     value = type->value;
     scopeSymbolTable.add_symbol(id->value, type->type, false,"", id->reg);
-    if(value == "int")
+    Exp* temp_exp = new Exp();
+    if(value == "bool")
+    {
+        temp_exp->value = "false";
+        string reg_ptr = codeGenerator.freshVar();
+        buffer.emit(temp_exp->reg + " = add i1 0, 0");
+        buffer.emit(reg_ptr + " = getelementptr i32, i32* " + scopeSymbolTable.current_scope()->rbp + ", i32 " + std::to_string(s->offset));
+        buffer.emit("store i1 " + temp_exp->reg + ", i32* " + reg_ptr);
+    }
+    else if(value == "int")
+    {
+        temp_exp->value = "0";
+        string reg_ptr = codeGenerator.freshVar();
+        buffer.emit(temp_exp->reg + " = add i32 0, 0");
+        buffer.emit(reg_ptr + " = getelementptr i32, i32* " + scopeSymbolTable.current_scope()->rbp + ", i32 " + std::to_string(s->offset));
+        buffer.emit("store i32 " + temp_exp->reg + ", i32* " + reg_ptr);
+    }
+    else if(value == "byte")
+    {
+        temp_exp->value = "0";
+        string reg_ptr = codeGenerator.freshVar();
+        buffer.emit(temp_exp->reg + " = add i8 0, 0");
+        buffer.emit(reg_ptr + " = getelementptr i32, i32* " + scopeSymbolTable.current_scope()->rbp + ", i32 " + std::to_string(s->offset));
+        buffer.emit("store i8 " + temp_exp->reg + ", i32* " + reg_ptr);
+    }
+
+    /*if(value == "int")
     {
         buffer.emit(id->reg + " = add i32 0, 0");
     }
@@ -434,7 +459,7 @@ Statement::Statement(Type *type, Node *id) : Node()
     else if(value == "bool")
     {
         buffer.emit(id->reg + " = add i1 0, 0");
-    }
+    }*/
 }
 
 Statement::Statement(Type *type, Node *id, Exp *exp)
@@ -464,10 +489,31 @@ Statement::Statement(Type *type, Node *id, Exp *exp)
         exit(0);
     }
     scopeSymbolTable.add_symbol(id->value, type->type, false, "", id->reg);
+
+    if(type->type == "bool")
+    {
+        string reg_ptr = codeGenerator.freshVar();
+        buffer.emit(reg_ptr + " = getelementptr i32, i32* " + scopeSymbolTable.current_scope()->rbp + ", i32 " + std::to_string(s->offset));
+        buffer.emit("store i1 " + exp->reg + ", i32* " + reg_ptr);
+    }
+    else if(type->type == "int")
+    {
+        string reg_ptr = codeGenerator.freshVar();
+        buffer.emit(reg_ptr + " = getelementptr i32, i32* " + scopeSymbolTable.current_scope()->rbp + ", i32 " + std::to_string(s->offset));
+        buffer.emit("store i32 " + exp->reg + ", i32* " + reg_ptr);
+    }
+    else if(type->type == "byte")
+    {
+        string reg_ptr = codeGenerator.freshVar();
+        buffer.emit(reg_ptr + " = getelementptr i32, i32* " + scopeSymbolTable.current_scope()->rbp + ", i32 " + std::to_string(s->offset));
+        buffer.emit("store i8 " + exp->reg + ", i32* " + reg_ptr);
+    }
+
     //Exp *id_exp = new Exp();
     //id_exp->type = type->value;
     //id_exp->reg = codeGenerator.freshVar();
     //id_exp->value = id->value;
+    /*
     if(value == "int")
     {
         buffer.emit(id->reg + " = add i32 " + exp->reg + ", 0");
@@ -537,6 +583,24 @@ Statement::Statement(Node *id, Exp *exp)
     {
         output::errorMismatch(yylineno);
         exit(0);
+    }
+    if(symbol->type == "bool")
+    {
+        string reg_ptr = codeGenerator.freshVar();
+        buffer.emit(reg_ptr + " = getelementptr i32, i32* " + scopeSymbolTable.current_scope()->rbp + ", i32 " + std::to_string(symbol->offset));
+        buffer.emit("store i1 " + exp->reg + ", i32* " + reg_ptr);
+    }
+    else if(symbol->type == "int")
+    {
+        string reg_ptr = codeGenerator.freshVar();
+        buffer.emit(reg_ptr + " = getelementptr i32, i32* " + scopeSymbolTable.current_scope()->rbp + ", i32 " + std::to_string(symbol->offset));
+        buffer.emit("store i32 " + exp->reg + ", i32* " + reg_ptr);
+    }
+    else if(symbol->type == "byte")
+    {
+        string reg_ptr = codeGenerator.freshVar();
+        buffer.emit(reg_ptr + " = getelementptr i32, i32* " + scopeSymbolTable.current_scope()->rbp + ", i32 " + std::to_string(symbol->offset));
+        buffer.emit("store i8 " + exp->reg + ", i32* " + reg_ptr);
     }
     //std::cout << "symbol: "<< symbol->type << "exp: " << exp->type << std::endl;
 }
