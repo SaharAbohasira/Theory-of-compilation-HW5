@@ -263,9 +263,10 @@ Exp::Exp(const string type, Node *terminal): Node(terminal->value), type(type)
         str.pop_back();
         string temp_reg = codeGenerator.globalFreshVar();
         buffer.emitGlobal(temp_reg + " = constant [" + to_string(str.length()) + " x i8] c" + str + "\\00\"");
-        temp_reg.replace(0, 1, "%");
-        buffer.emit(temp_reg + ".ptr = getelementptr [" + to_string(str.length()) + " x i8], " + "[" + to_string(str.length()) + " x i8]* " + temp_reg + ", i32 0, i32 0");
-        reg = temp_reg + ".ptr";
+        string temp_reg_ptr = temp_reg;
+        temp_reg_ptr.replace(0, 1, "%");
+        buffer.emit(temp_reg_ptr + ".ptr = getelementptr [" + to_string(str.length()) + " x i8], " + "[" + to_string(str.length()) + " x i8]* " + temp_reg + ", i32 0, i32 0");
+        reg = temp_reg_ptr + ".ptr";
     }
     else if(type == "int")
     {
