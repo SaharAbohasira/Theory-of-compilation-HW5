@@ -201,7 +201,7 @@ Exp::Exp(Node *node, bool isVar): Node(), isVar(isVar)
     else
     {
         reg = codeGenerator.freshVar();
-        buffer.emit(reg + " = add i32 " + node->reg + ", 0 d4");
+        buffer.emit(reg + " = add i32 " + s->reg + ", 0 d4");
         //reg = codeGenerator.freshVar();
         //string reg_ptr = codeGenerator.freshVar();
         //buffer.emit(reg + "= add i1 0, 0 check")
@@ -381,7 +381,7 @@ Statement::Statement(Type *type, Node *id) : Node()
         exit(0);
     }
     value = type->value;
-    scopeSymbolTable.add_symbol(id->value, type->type, false);
+    scopeSymbolTable.add_symbol(id->value, type->type, false,"", id->reg);
     buffer.emit(id->reg + " = add i32 0, 0 d1");
 }
 
@@ -411,7 +411,7 @@ Statement::Statement(Type *type, Node *id, Exp *exp)
         output::errorMismatch(yylineno);
         exit(0);
     }
-    scopeSymbolTable.add_symbol(id->value, type->type, false);
+    scopeSymbolTable.add_symbol(id->value, type->type, false, "", id->reg);
     //Exp *id_exp = new Exp();
     //id_exp->type = type->value;
     //id_exp->reg = codeGenerator.freshVar();
