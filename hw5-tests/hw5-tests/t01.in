@@ -1,12 +1,12 @@
 
-	bool val=true;
-        if (val)
+	int val = 4;
+        if (val == 4)
 		print("val is true");
 	else {
 		print("val is false");
 	}
 
-	if(true)
+	if(val == 4)
     {
         print("true");
     }
