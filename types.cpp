@@ -199,7 +199,7 @@ Exp::Exp(Node *node, bool isVar): Node(), isVar(isVar)
     }
     else
     {
-        reg = codeGenerator.freshVar();
+        /*reg = codeGenerator.freshVar();
         if(type == "int")
         {
             buffer.emit(reg + " = add i32 " + s->reg + ", 0");
@@ -215,13 +215,12 @@ Exp::Exp(Node *node, bool isVar): Node(), isVar(isVar)
         else if(type == "string")
         {
             buffer.emit(reg + " = add i8* " + s->reg +", 0");
-        }
-
-        //reg = codeGenerator.freshVar();
-        //string reg_ptr = codeGenerator.freshVar();
-        //buffer.emit(reg + "= add i1 0, 0 check")
-        //buffer.emit(reg_ptr + " = getelementptr i32, i32* " + scopeSymbolTable.current_scope()->rbp + ", i32 " + std::to_string(s->offset));
-        //buffer.emit(reg + " = load i32, i32* " + reg_ptr);
+        }*/
+        reg = codeGenerator.freshVar();
+        string reg_ptr = codeGenerator.freshVar();
+        buffer.emit(reg + "= add i1 0, 0")
+        buffer.emit(reg_ptr + " = getelementptr i32, i32* " + scopeSymbolTable.current_scope()->rbp + ", i32 " + std::to_string(s->offset));
+        buffer.emit(reg + " = load i32, i32* " + reg_ptr);
     }
 }
 
