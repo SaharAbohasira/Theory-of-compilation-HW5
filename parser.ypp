@@ -91,7 +91,7 @@ int main(){
     buffer.initialEmits();
     buffer.emit("define i32 @main(){");
     scopeSymbolTable.current_scope()->rbp = codeGenerator.freshVar();
-    buffer.emit(scopeSymbolTable.current_scope()->rbp + " = add i32* 0, 0");
+    buffer.emit(scopeSymbolTable.current_scope()->rbp + " " = getelementptr i32, i32* " + scopeSymbolTable.current_scope()->rbp + ", i32 0";
     int parse = yyparse();
     scopeSymbolTable.pop_scope();
     buffer.emit("ret i32 0");
