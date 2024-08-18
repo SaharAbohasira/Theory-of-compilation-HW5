@@ -241,7 +241,7 @@ Exp::Exp(const string type, Node *terminal): Node(terminal->value), type(type)
         str.pop_back();
         string temp_reg = codeGenerator.globalFreshVar();
         buffer.emitGlobal(temp_reg + " = constant [" + to_string(str.length()) + " x i8] c" + str + "\\00\"");
-        reg.replace(0, 1, "%");
+        temp_reg.replace(0, 1, "%");
         buffer.emit(temp_reg + ".ptr = getelementptr [" + to_string(str.length()) + " x i8], " + "[" + to_string(str.length()) + " x i8]* " + temp_reg + ", i32 0, i32 0");
         reg = temp_reg + ".ptr";
     }
