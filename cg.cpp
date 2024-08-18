@@ -9,6 +9,8 @@ using namespace std;
 
 extern general codeGenerator;
 
+extern ScopeSymbolTable scopeSymbolTable;
+
 CodeBuffer::CodeBuffer() : buffer(), globalDefs() {}
 
 CodeBuffer &CodeBuffer::instance() {
@@ -75,6 +77,7 @@ void CodeBuffer::printDefinitions()
 
 void CodeBuffer::initialEmits()
 {
+    scopeSymbolTable.current_scope()->rbp = codeGenerator.freshVar();
     codeGenerator.globalCode();
     declareFuncs();
     printDefinitions();
