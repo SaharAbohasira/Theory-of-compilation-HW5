@@ -67,12 +67,6 @@ public:
     virtual ~Call() = default;
 };
 
-class IF_ELSE: public Exp{
-public:
-    IF_ELSE(Exp* exp, Label* label);
-    virtual ~IF_ELSE() = default;
-};
-
 void is_bool(Node* node);
 
 class Statement : public Node
