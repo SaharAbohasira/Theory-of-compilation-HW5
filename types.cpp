@@ -200,7 +200,7 @@ Exp::Exp(Node *node, bool isVar): Node(), isVar(isVar)
     }
     else
     {
-        reg = node->reg;
+        buffer.emit(reg + " = add i32 " + node->reg + ", 0");
         //reg = codeGenerator.freshVar();
         //string reg_ptr = codeGenerator.freshVar();
         //buffer.emit(reg + "= add i1 0, 0 check")
@@ -415,7 +415,7 @@ Statement::Statement(Type *type, Node *id, Exp *exp)
     //id_exp->type = type->value;
     //id_exp->reg = codeGenerator.freshVar();
     //id_exp->value = id->value;
-    id->reg = exp->reg
+    buffer.emit(id->reg + "= add i32 " + exp->reg +", 0");
     //buffer.emit("DEBUG " + exp->value + " " + type->value + "isEmpty");
     /*if(type->value == "bool")
     {
