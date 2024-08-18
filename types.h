@@ -67,8 +67,6 @@ public:
     virtual ~Call() = default;
 };
 
-void is_bool(Node* node);
-
 class Statement : public Node
 {
 public:
@@ -83,8 +81,6 @@ public:
     Statement(Node *id, Exp *exp);
 
     Statement( const string name, Node *node);
-
-    Statement(const string name, IF_ELSE* ifElse);
 
     Statement(Exp *exp, bool isReturn = false);
 
@@ -111,6 +107,16 @@ public:
     Label();
     virtual ~Label() = default;
 };
+
+class IF_ELSE: public Exp{
+public:
+    Exp* exp;
+    Label* label;
+    IF_ELSE(Exp* exp, Label* label);
+    virtual ~IF_ELSE() = default;
+};
+
+void is_bool(Node* node);
 
 
 #endif //THEORY_OF_COMPILATION_HW3_TYPES_H

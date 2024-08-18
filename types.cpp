@@ -560,3 +560,9 @@ Label::Label() : Node("")
     false_label = buffer.freshLabel() + "_false";
     next_label = buffer.freshLabel() + "_next";
 }
+
+IF_ELSE::IF_ELSE(Exp* exp, Label* label)
+{
+    this.exp = exp;
+    this->label = label;
+}
