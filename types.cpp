@@ -118,66 +118,66 @@ Exp::Exp(Node *node1, Node *node2, const std::string op, const std::string type1
         {
             if(exp1->reg == exp2->reg)
             {
-                buffer.emit(reg + " = add i32 1, 0");
+                buffer.emit(reg + " = add i8 1, 0");
             }
             else
             {
-                buffer.emit(reg + " = add i32 0, 0");
+                buffer.emit(reg + " = add i8 0, 0");
             }
         }
         else if(op == "!=")
         {
             if(exp1->reg == exp2->reg)
             {
-                buffer.emit(reg + " = add i32 0, 0");
+                buffer.emit(reg + " = add i8 0, 0");
             }
             else
             {
-                buffer.emit(reg + " = add i32 1, 0");
+                buffer.emit(reg + " = add i8 1, 0");
             }
         }
         else if(op == "<")
         {
             if(exp1->reg < exp2->reg)
             {
-                buffer.emit(reg + " = add i32 1, 0");
+                buffer.emit(reg + " = add i8 1, 0");
             }
             else
             {
-                buffer.emit(reg + " = add i32 0, 0");
+                buffer.emit(reg + " = add i8 0, 0");
             }
         }
         else if(op == ">")
         {
             if(exp1->reg > exp2->reg)
             {
-                buffer.emit(reg + " = add i32 1, 0");
+                buffer.emit(reg + " = add i8 1, 0");
             }
             else
             {
-                buffer.emit(reg + " = add i32 0, 0");
+                buffer.emit(reg + " = add i8 0, 0");
             }
         }
         else if(op == "<=")
         {
             if(exp1->reg <= exp2->reg)
             {
-                buffer.emit(reg + " = add i32 1, 0");
+                buffer.emit(reg + " = add i8 1, 0");
             }
             else
             {
-                buffer.emit(reg + " = add i32 0, 0");
+                buffer.emit(reg + " = add i8 0, 0");
             }
         }
         else if(op == ">=")
         {
             if(exp1->reg >= exp2->reg)
             {
-                buffer.emit(reg + " = add i32 1, 0");
+                buffer.emit(reg + " = add i8 1, 0");
             }
             else
             {
-                buffer.emit(reg + " = add i32 0, 0");
+                buffer.emit(reg + " = add i8 0, 0");
             }
         }
     }
@@ -201,7 +201,19 @@ Exp::Exp(Node *node, bool isVar): Node(), isVar(isVar)
     else
     {
         reg = codeGenerator.freshVar();
-        buffer.emit(reg + " = add i32 " + s->reg + ", 0");
+        if(type == "int")
+        {
+            buffer.emit(reg + " = add i32 " + s->reg + ", 0");
+        }
+        else if(type == "byte" || type == "bool")
+        {
+            buffer.emit(reg + " = add i8 " + s->reg + ", 0");
+        }
+        else if(type == "string")
+        {
+            buffer.emit(reg + " = add i8* " + s->reg +", 0");
+        }
+
         //reg = codeGenerator.freshVar();
         //string reg_ptr = codeGenerator.freshVar();
         //buffer.emit(reg + "= add i1 0, 0 check")
