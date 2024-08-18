@@ -18,7 +18,7 @@ class Node
 public:
     string reg = "";
     string value;
-    Node(const string value = ""): value(value){};
+    Node(const string value = "");
     Node(const Node &node);
     virtual ~Node() = default;
 };
