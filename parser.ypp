@@ -77,7 +77,7 @@ Exp: LPAREN Exp RPAREN                                          {$$ = new Exp(dy
 
 PUSH:                                                           {/*std::cout << "start scope line: " << yylineno << std::endl;*/ scopeSymbolTable.push_scope();}
 ISBOOL: Exp                                                     {is_bool($1);}
-IF_ELSE: IF LPAREN ISBOOL RPAREN PUSH Label                     {$$ = new IF_ELSE(dynamic_cast<Exp*>($3),dynamic_cast<Label*>($6))}
+IF_ELSE: IF LPAREN ISBOOL RPAREN PUSH Label                     {$$ = new IF_ELSE(dynamic_cast<Exp*>($3),dynamic_cast<Label*>($6));}
 Label:                                                          {$$ = new Label();}
 %%
 
@@ -86,7 +86,7 @@ ScopeSymbolTable scopeSymbolTable = ScopeSymbolTable();
 general codeGenerator = general();
 
 int main(){
-    yydebug = 1;
+    //yydebug = 1;
     buffer.initialEmits();
     buffer.emit("define i32 @main(){");
     int parse = yyparse();
