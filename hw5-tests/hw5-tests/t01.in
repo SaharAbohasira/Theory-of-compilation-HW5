@@ -2,6 +2,4 @@
 	bool val=true;
 
 	if(true)
-    {
         print("true");
-    }
