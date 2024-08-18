@@ -110,12 +110,12 @@ public:
     virtual ~Label() = default;
 };
 
-class IF_ELSE: public Exp{
+class IF_: public Exp{
 public:
     Exp* exp;
     Label* label;
-    IF_ELSE(Exp* exp, Label* label);
-    virtual ~IF_ELSE() = default;
+    IF_(Exp* exp, Label* label);
+    virtual ~IF_() = default;
 };
 
 void is_bool(Node* node);

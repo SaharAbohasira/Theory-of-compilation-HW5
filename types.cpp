@@ -609,7 +609,7 @@ Label::Label() : Node("")
     next_label = buffer.freshLabel(); // + "_next";
 }
 
-IF_ELSE::IF_ELSE(Exp* exp, Label* label)
+IF_::IF_(Exp* exp, Label* label)
 {
     this->exp = exp;
     this->label = label;
