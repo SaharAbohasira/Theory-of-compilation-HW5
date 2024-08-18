@@ -17,6 +17,16 @@ extern general codeGenerator;
 
 using namespace std;
 
+Node::Node(const std::string value): value(value)
+{
+    reg = codeGenerator.freshVar();
+}
+
+Node::Node(const Node &node): value(node.value)
+{
+    reg = node.reg;
+}
+
 Exp::Exp(Node *node1, Node *node2, const std::string op, const std::string type1): isVar(false)
 {
     Exp* exp1 = dynamic_cast<Exp *>(node1);
@@ -370,23 +380,7 @@ Statement::Statement(Type *type, Node *id) : Node()
     }
     value = type->value;
     scopeSymbolTable.add_symbol(id->value, type->type, false);
-    Symbol* s = scopeSymbolTable.get_symbol(id->value);
-    Exp *temp_exp = new Exp();
-    temp_exp->reg = codeGenerator.freshVar();
-    temp_exp->type = value;
-    if(value == "bool")
-    {
-        temp_exp->value = "false";
-    }
-    else
-    {
-        temp_exp->value = "0";
-        string reg_ptr = codeGenerator.freshVar();
-        buffer.emit(temp_exp->reg + " = add i32 " + temp_exp->value + ", 0");
-        buffer.emit(reg_ptr + " = getelementptr i32, i32* " + scopeSymbolTable.current_scope()->rbp + ", i32 " + std::to_string(s->offset));
-        buffer.emit("store i32 " + temp_exp->reg + ", i32* " + reg_ptr);
-    }
-    delete temp_exp;
+    buffer.emit(id->reg + " = add i32 0, 0");
 }
 
 Statement::Statement(Type *type, Node *id, Exp *exp)
@@ -416,12 +410,13 @@ Statement::Statement(Type *type, Node *id, Exp *exp)
         exit(0);
     }
     scopeSymbolTable.add_symbol(id->value, type->type, false);
-    Exp *id_exp = new Exp();
-    id_exp->type = type->value;
-    id_exp->reg = codeGenerator.freshVar();
-    id_exp->value = id->value;
+    //Exp *id_exp = new Exp();
+    //id_exp->type = type->value;
+    //id_exp->reg = codeGenerator.freshVar();
+    //id_exp->value = id->value;
+    buffer.emit(id->reg + "= add i32 " + exp->reg +", 0");
     //buffer.emit("DEBUG " + exp->value + " " + type->value + "isEmpty");
-    if(type->value == "bool")
+    /*if(type->value == "bool")
     {
         if(exp->value == "true")
         {
@@ -439,7 +434,7 @@ Statement::Statement(Type *type, Node *id, Exp *exp)
     else if(type->value == "int")
     {
         buffer.emit(id_exp->reg + "= add i32 0, " + exp->value);
-    }
+    }*/
 }
 
 Statement::Statement(Node *id, Exp *exp)
