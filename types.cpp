@@ -24,7 +24,7 @@ Node::Node(const std::string value): value(value)
 
 Node::Node(const Node &node): value(node.value)
 {
-    reg = buffer.emit(reg + " = add i32 " + node.reg + ", 0 hi");
+    reg = buffer.emit(reg + " = add i32 " + node.reg + ", 0");
 }
 
 Exp::Exp(Node *node1, Node *node2, const std::string op, const std::string type1): isVar(false)
@@ -381,7 +381,7 @@ Statement::Statement(Type *type, Node *id) : Node()
     }
     value = type->value;
     scopeSymbolTable.add_symbol(id->value, type->type, false);
-    buffer.emit(id->reg + " = add i32 0, 0");
+    buffer.emit(id->reg + " = add i32 0, 0 d1");
 }
 
 Statement::Statement(Type *type, Node *id, Exp *exp)
@@ -415,7 +415,7 @@ Statement::Statement(Type *type, Node *id, Exp *exp)
     //id_exp->type = type->value;
     //id_exp->reg = codeGenerator.freshVar();
     //id_exp->value = id->value;
-    buffer.emit(id->reg + "= add i32 " + exp->reg +", 0");
+    buffer.emit(id->reg + "= add i32 " + exp->reg +", 0 d2");
     //buffer.emit("DEBUG " + exp->value + " " + type->value + "isEmpty");
     /*if(type->value == "bool")
     {
