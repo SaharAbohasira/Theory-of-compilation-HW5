@@ -10,8 +10,3 @@
     {
         print("true");
     }
-
-    if(false or false and  true)
-    {
-        print("true");
-    }
