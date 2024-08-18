@@ -24,7 +24,7 @@ Node::Node(const std::string value): value(value)
 
 Node::Node(const Node &node): value(node.value)
 {
-    reg = node.reg;
+    reg = buffer.emit(reg + " = add i32 " + node.reg + ", 0");
 }
 
 Exp::Exp(Node *node1, Node *node2, const std::string op, const std::string type1): isVar(false)
