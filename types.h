@@ -72,6 +72,8 @@ class Statement : public Node
 public:
     string whileLabel = "";
 
+    Statement(): Node(){}
+
     Statement(Node *node);
 
     Statement(Type *type, Node *id);
