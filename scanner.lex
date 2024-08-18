@@ -42,3 +42,4 @@ continue                        yylval = new Node(yytext);                      
 \/\/[^\n\r]*[\r|\n|\r\n]?                           ;
 {whitespace}                                        ;
 .                                                   {output::errorLex(yylineno); exit(0);}
+
