@@ -115,27 +115,93 @@ Exp::Exp(Node *node1, Node *node2, const std::string op, const std::string type1
         this->type = "bool";
         if(op == "==")
         {
-            buffer.emit(reg + "= icmp eq i1 " + exp1->reg +", " + exp2->reg);
+            if(exp1->type == "int")
+            {
+                buffer.emit(reg + "= icmp eq i32 " + exp1->reg +", " + exp2->reg);
+            }
+            if(exp1->type == "byte")
+            {
+                buffer.emit(reg + "= icmp eq i8 " + exp1->reg +", " + exp2->reg);
+            }
+            if(exp1->type == "bool")
+            {
+                buffer.emit(reg + "= icmp eq i1 " + exp1->reg +", " + exp2->reg);
+            }
         }
         else if(op == "!=")
         {
-            buffer.emit(reg + "= icmp neq i1 " + exp1->reg +", " + exp2->reg);
+            if(exp1->type == "int")
+            {
+                buffer.emit(reg + "= icmp neq i32 " + exp1->reg +", " + exp2->reg);
+            }
+            if(exp1->type == "byte")
+            {
+                buffer.emit(reg + "= icmp neq i8 " + exp1->reg +", " + exp2->reg);
+            }
+            if(exp1->type == "bool")
+            {
+                buffer.emit(reg + "= icmp neq i1 " + exp1->reg +", " + exp2->reg);
+            }
         }
         else if(op == "<")
         {
-            buffer.emit(reg + "= icmp slt i1 " + exp1->reg +", " + exp2->reg);
+            if(exp1->type == "int")
+            {
+                buffer.emit(reg + "= icmp slt i32 " + exp1->reg +", " + exp2->reg);
+            }
+            if(exp1->type == "byte")
+            {
+                buffer.emit(reg + "= icmp slt i8 " + exp1->reg +", " + exp2->reg);
+            }
+            if(exp1->type == "bool")
+            {
+                buffer.emit(reg + "= icmp slt i1 " + exp1->reg +", " + exp2->reg);
+            }
         }
         else if(op == ">")
         {
-            buffer.emit(reg + "= icmp sgt i1 " + exp1->reg +", " + exp2->reg);
+            if(exp1->type == "int")
+            {
+                buffer.emit(reg + "= icmp sgt i32 " + exp1->reg +", " + exp2->reg);
+            }
+            if(exp1->type == "byte")
+            {
+                buffer.emit(reg + "= icmp sgt i8 " + exp1->reg +", " + exp2->reg);
+            }
+            if(exp1->type == "bool")
+            {
+                buffer.emit(reg + "= icmp sgt i1 " + exp1->reg +", " + exp2->reg);
+            }
         }
         else if(op == "<=")
         {
-            buffer.emit(reg + "= icmp sle i1 " + exp1->reg +", " + exp2->reg);
+            if(exp1->type == "int")
+            {
+                buffer.emit(reg + "= icmp sle i32 " + exp1->reg +", " + exp2->reg);
+            }
+            if(exp1->type == "byte")
+            {
+                buffer.emit(reg + "= icmp sle i8 " + exp1->reg +", " + exp2->reg);
+            }
+            if(exp1->type == "bool")
+            {
+                buffer.emit(reg + "= icmp sle i1 " + exp1->reg +", " + exp2->reg);
+            }
         }
         else if(op == ">=")
         {
-            buffer.emit(reg + "= icmp gte i1 " + exp1->reg +", " + exp2->reg);
+            if(exp1->type == "int")
+            {
+                buffer.emit(reg + "= icmp gte i32 " + exp1->reg +", " + exp2->reg);
+            }
+            if(exp1->type == "byte")
+            {
+                buffer.emit(reg + "= icmp gte i8 " + exp1->reg +", " + exp2->reg);
+            }
+            if(exp1->type == "bool")
+            {
+                buffer.emit(reg + "= icmp gte i1 " + exp1->reg +", " + exp2->reg);
+            }
         }
     }
 }
