@@ -45,17 +45,16 @@ Exp::Exp(Node *node1, Node *node2, const std::string op, const std::string type1
         next_label = buffer.freshLabel();
         if(op == "and")
         {
-            buffer.emit(reg + " = add i8 " + exp1->reg + ", " + exp2->reg);
-            buffer.emit(reg + " = icmp eq i8 2, " + reg);
+            buffer.emit(reg + " = and i1 " + exp1->reg + ", " + exp2->reg);
         }
         else if(op == "or")
         {
-            buffer.emit(reg + " = add i8 " + exp1->reg + ", " + exp2->reg);
-            buffer.emit(reg + " = icmp slt i8 1, " + reg);
+            buffer.emit(reg + " = or i1 " + exp1->reg + ", " + exp2->reg);
+
         }
         if(op == "not")
         {
-                buffer.emit(reg + " = sub i8 1, " + exp1->reg);
+                buffer.emit(reg + " = sub i1 1, " + exp1->reg);
         }
     }
     else if(type1 == "binop")
@@ -118,66 +117,66 @@ Exp::Exp(Node *node1, Node *node2, const std::string op, const std::string type1
         {
             if(exp1->reg == exp2->reg)
             {
-                buffer.emit(reg + " = add i8 1, 0");
+                buffer.emit(reg + " = add i1 1, 0");
             }
             else
             {
-                buffer.emit(reg + " = add i8 0, 0");
+                buffer.emit(reg + " = add i1 0, 0");
             }
         }
         else if(op == "!=")
         {
             if(exp1->reg == exp2->reg)
             {
-                buffer.emit(reg + " = add i8 0, 0");
+                buffer.emit(reg + " = add i1 0, 0");
             }
             else
             {
-                buffer.emit(reg + " = add i8 1, 0");
+                buffer.emit(reg + " = add i1 1, 0");
             }
         }
         else if(op == "<")
         {
             if(exp1->reg < exp2->reg)
             {
-                buffer.emit(reg + " = add i8 1, 0");
+                buffer.emit(reg + " = add i1 1, 0");
             }
             else
             {
-                buffer.emit(reg + " = add i8 0, 0");
+                buffer.emit(reg + " = add i1 0, 0");
             }
         }
         else if(op == ">")
         {
             if(exp1->reg > exp2->reg)
             {
-                buffer.emit(reg + " = add i8 1, 0");
+                buffer.emit(reg + " = add i1 1, 0");
             }
             else
             {
-                buffer.emit(reg + " = add i8 0, 0");
+                buffer.emit(reg + " = add i1 0, 0");
             }
         }
         else if(op == "<=")
         {
             if(exp1->reg <= exp2->reg)
             {
-                buffer.emit(reg + " = add i8 1, 0");
+                buffer.emit(reg + " = add i1 1, 0");
             }
             else
             {
-                buffer.emit(reg + " = add i8 0, 0");
+                buffer.emit(reg + " = add i1 0, 0");
             }
         }
         else if(op == ">=")
         {
             if(exp1->reg >= exp2->reg)
             {
-                buffer.emit(reg + " = add i8 1, 0");
+                buffer.emit(reg + " = add i1 1, 0");
             }
             else
             {
-                buffer.emit(reg + " = add i8 0, 0");
+                buffer.emit(reg + " = add i1 0, 0");
             }
         }
     }
@@ -205,9 +204,13 @@ Exp::Exp(Node *node, bool isVar): Node(), isVar(isVar)
         {
             buffer.emit(reg + " = add i32 " + s->reg + ", 0");
         }
-        else if(type == "byte" || type == "bool")
+        else if(type == "byte")
         {
             buffer.emit(reg + " = add i8 " + s->reg + ", 0");
+        }
+        else if(type == "bool")
+        {
+            buffer.emit(reg + " = add i1 " + s->reg + ", 0");
         }
         else if(type == "string")
         {
@@ -257,11 +260,11 @@ Exp::Exp(const string type, Node *terminal): Node(terminal->value), type(type)
         reg = codeGenerator.freshVar();
         if(terminal->value == "true")
         {
-            buffer.emit(reg + " = add i8 1, 0");
+            buffer.emit(reg + " = add i1 1, 0");
         }
         else if(terminal->value == "false")
         {
-            buffer.emit(reg + " = add i8 0, 0");
+            buffer.emit(reg + " = add i1 0, 0");
         }
 
     }
@@ -403,9 +406,13 @@ Statement::Statement(Type *type, Node *id) : Node()
     {
         buffer.emit(id->reg + " = add i32 0, 0");
     }
-    else if(value == "byte" || value == "bool")
+    else if(value == "byte")
     {
         buffer.emit(id->reg + " = add i8 0, 0");
+    }
+    else if(value == "bool")
+    {
+        buffer.emit(id->reg + " = add i1 0, 0");
     }
 }
 
@@ -444,9 +451,13 @@ Statement::Statement(Type *type, Node *id, Exp *exp)
     {
         buffer.emit(id->reg + " = add i32 " + exp->reg + ", 0");
     }
-    else if(value == "byte" || value == "bool")
+    else if(value == "byte")
     {
         buffer.emit(id->reg + " = add i8 " + exp->reg + ", 0");
+    }
+    else if(value == "bool")
+    {
+        buffer.emit(id->reg + " = add i1 " + exp->reg + ", 0");
     }
     else if(value == "string")
     {
