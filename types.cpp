@@ -563,6 +563,6 @@ Label::Label() : Node("")
 
 IF_ELSE::IF_ELSE(Exp* exp, Label* label)
 {
-    this.exp = exp;
+    this->exp = exp;
     this->label = label;
 }
