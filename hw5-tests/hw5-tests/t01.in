@@ -1,5 +1,2 @@
 
-	if(true)
-    {
-        print("true");
-    }
+	if(true);
