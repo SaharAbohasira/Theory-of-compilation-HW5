@@ -118,6 +118,11 @@ Exp::Exp(Node *node1, Node *node2, const std::string op, const std::string type1
             {
                 buffer.emit(reg + " = udiv i8 " + exp1->reg + ", " + exp2->reg);
             }
+            string trunc_reg = codeGenerator.freshVar();
+            buffer.emit(trunc_reg + " = trunc i8 " + reg + " to i8");
+            string new_reg = codeGenerator.freshVar();
+            buffer.emit(new_reg + " = add i8 " + trunc_reg + ", 0");
+            reg = new_reg;
         }
 
     }
@@ -483,11 +488,11 @@ Statement::Statement(Type *type, Node *id) : Node()
         output::errorDef(yylineno, id->value);
         exit(0);
     }
-    value = type->value;
+    //alue = type->value;
     scopeSymbolTable.add_symbol(id->value, type->type, false,"");
     Symbol *s = scopeSymbolTable.get_symbol(id->value);
     Exp* temp_exp = new Exp();
-    if(value == "bool")
+    if(type->type == "bool")
     {
         temp_exp->value = "false";
         string reg_ptr = codeGenerator.freshVar();
@@ -495,7 +500,7 @@ Statement::Statement(Type *type, Node *id) : Node()
         buffer.emit(reg_ptr + " = getelementptr i32, i32* " + scopeSymbolTable.rbp + ", i32 " + std::to_string(s->offset));
         buffer.emit("store i32 " + temp_exp->reg + ", i32* " + reg_ptr);
     }
-    else if(value == "int")
+    else if(type->type == "int")
     {
         temp_exp->value = "0";
         string reg_ptr = codeGenerator.freshVar();
@@ -503,7 +508,7 @@ Statement::Statement(Type *type, Node *id) : Node()
         buffer.emit(reg_ptr + " = getelementptr i32, i32* " + scopeSymbolTable.rbp + ", i32 " + std::to_string(s->offset));
         buffer.emit("store i32 " + temp_exp->reg + ", i32* " + reg_ptr);
     }
-    else if(value == "byte")
+    else if(type->type == "byte")
     {
         temp_exp->value = "0";
         string reg_ptr = codeGenerator.freshVar();
@@ -511,6 +516,7 @@ Statement::Statement(Type *type, Node *id) : Node()
         buffer.emit(reg_ptr + " = getelementptr i32, i32* " + scopeSymbolTable.rbp + ", i32 " + std::to_string(s->offset));
         buffer.emit("store i32 " + temp_exp->reg + ", i32* " + reg_ptr);
     }
+    delete temp_exp;
 
     /*if(value == "int")
     {
