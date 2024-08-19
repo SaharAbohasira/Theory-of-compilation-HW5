@@ -415,7 +415,7 @@ Call::Call(Node *funcID, Node *node)
             exit(0);
         }
     }
-    std::cout << symbol->name << endl;
+    buffer.emit(symbol->name);
     /*this->value = symbol->name;
     this->type = symbol->type;
     if(type == "void" && exp->type == "int" && value == "printi")
