@@ -65,21 +65,39 @@ Exp::Exp(Node *node1, Node *node2, const std::string op, const std::string type1
         if (exp1->type == "int" || exp2->type == "int")
         {
             this->type = "int";
+            string new_reg1 = codeGenerator.freshVar();
+            string new_reg2 = codeGenerator.freshVar();
+            if(exp1->type == "int")
+            {
+                buffer.emit(new_reg1 +" = add i32 " + exp1->reg + ", 0");
+            }
+            else if(exp1->type == "byte")
+            {
+                buffer.emit(new_reg1 + " = zext i8 " + exp1->reg + " to i32");
+            }
+            if(exp2->type == "int")
+            {
+                buffer.emit(new_reg2 +" = add i32 " + exp2->reg + ", 0");
+            }
+            else if(exp2->type == "byte")
+            {
+                buffer.emit(new_reg2 + " = zext i8 " + exp2->reg + " to i32");
+            }
             if(op == "+")
             {
-                buffer.emit(reg + " = add i32 " + exp1->reg + ", " + exp2->reg);
+                buffer.emit(reg + " = add i32 " + new_reg1 + ", " + new_reg2);
             }
             if(op == "-")
             {
-                buffer.emit(reg + " = sub i32 " + exp1->reg + ", " + exp2->reg);
+                buffer.emit(reg + " = sub i32 " + new_reg1 + ", " + new_reg2);
             }
             if(op == "*")
             {
-                buffer.emit(reg + " = mul i32 " + exp1->reg + ", " + exp2->reg);
+                buffer.emit(reg + " = mul i32 " + new_reg1 + ", " + new_reg2);
             }
             if(op == "/")
             {
-                buffer.emit(reg + " = sdiv i32 " + exp1->reg + ", " + exp2->reg);
+                buffer.emit(reg + " = sdiv i32 " + new_reg1 + ", " + new_reg2);
             }
         } else
         {
