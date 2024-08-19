@@ -246,11 +246,15 @@ Exp::Exp(Node *node, bool isVar): Node(), isVar(isVar)
         buffer.emit(reg + " = load i32, i32* " + reg_ptr);
         if(s->type == "byte")
         {
-            buffer.emit(reg + " = trunc i32 " + reg + " to i8");
+            string reg_copy = codeGenerator.freshVar();
+            buffer.emit(reg_copy + " = add i8 " + reg +", 0");
+            buffer.emit(reg + " = trunc i32 " + reg_copy + " to i8");
         }
         else if(s->type == "bool")
         {
-            buffer.emit(reg + " = icmp neq i32 " + reg + ", 0");
+            string reg_copy = codeGenerator.freshVar();
+            buffer.emit(reg_copy + " = add i1 " + reg +", 0");
+            buffer.emit(reg + " = icmp neq i32 " + reg_copy + ", 0");
         }
     }
 }
