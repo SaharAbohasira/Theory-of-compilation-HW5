@@ -132,15 +132,15 @@ Exp::Exp(Node *node1, Node *node2, const std::string op, const std::string type1
         {
             if(exp1->type == "int")
             {
-                buffer.emit(reg + "= icmp neq i32 " + exp1->reg +", " + exp2->reg);
+                buffer.emit(reg + "= icmp ne i32 " + exp1->reg +", " + exp2->reg);
             }
             if(exp1->type == "byte")
             {
-                buffer.emit(reg + "= icmp neq i8 " + exp1->reg +", " + exp2->reg);
+                buffer.emit(reg + "= icmp ne i8 " + exp1->reg +", " + exp2->reg);
             }
             if(exp1->type == "bool")
             {
-                buffer.emit(reg + "= icmp neq i1 " + exp1->reg +", " + exp2->reg);
+                buffer.emit(reg + "= icmp ne i1 " + exp1->reg +", " + exp2->reg);
             }
         }
         else if(op == "<")
