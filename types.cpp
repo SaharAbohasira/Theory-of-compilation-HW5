@@ -506,6 +506,7 @@ Statement::Statement(Type *type, Node *id) : Node()
 
 Statement::Statement(Type *type, Node *id, Exp *exp)
 {
+    cout << "type: " << type->type << endl;
     if(scopeSymbolTable.is_symbol_exist(id->value))
     {
         output::errorDef(yylineno, id->value);
@@ -533,7 +534,7 @@ Statement::Statement(Type *type, Node *id, Exp *exp)
     scopeSymbolTable.add_symbol(id->value, type->type, false, "", id->reg);
     Symbol *s = scopeSymbolTable.get_symbol(id->value);
 
-    if(type->type == "bol")
+    if(type->type == "bool")
     {
         string reg_ptr = codeGenerator.freshVar();
         string new_reg = codeGenerator.freshVar();
