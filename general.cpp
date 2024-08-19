@@ -30,7 +30,7 @@ string general::globalFreshVar()
 
 void general::globalCode()
 {
-    buffer.emit("@.DIV_BY_ZERO_exp1->type == \"byte\"ERROR = internal constant [23 x i8] c\"Error division by zero\\00\"");
+    buffer.emit("@.DIV_BY_ZERO_ERROR = internal constant [23 x i8] c\"Error division by zero\\00\"");
     buffer.emit("define void @check_division(i32) {");
     buffer.emit("%valid = icmp eq i32 %0, 0");
     buffer.emit("br i1 %valid, label %ILLEGAL, label %LEGAL");
