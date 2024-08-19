@@ -214,11 +214,11 @@ Exp::Exp(Node *node1, Node *node2, const std::string op, const std::string type1
         {
             if(exp1->type == "int" || exp1->type == "byte")
             {
-                buffer.emit(reg + " = icmp gte i32 " + new_reg1 +", " + new_reg2);
+                buffer.emit(reg + " = icmp sge i32 " + new_reg1 +", " + new_reg2);
             }
             if(exp1->type == "bool")
             {
-                buffer.emit(reg + " = icmp gte i1 " + exp1->reg +", " + exp2->reg);
+                buffer.emit(reg + " = icmp sge i1 " + exp1->reg +", " + exp2->reg);
             }
         }
     }
