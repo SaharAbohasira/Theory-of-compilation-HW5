@@ -3,6 +3,6 @@
         printi(i);
         if (i+1 < 10)
             print("*");
-        i = i + 1b;
+        i = i + 1;
     }
     print("*");
