@@ -43,7 +43,7 @@ public:
     string true_label = "";
     string false_label = "";
     string next_label = "";
-    Exp(Exp *exp): Node(exp->value), type(exp->type){};
+    Exp(Exp *exp);
     Exp(Node *node, bool isVar);
     Exp(): Node(), type("void"), isVar(false){};
     Exp(const string type, Node *terminal);

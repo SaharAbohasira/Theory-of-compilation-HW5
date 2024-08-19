@@ -22,7 +22,7 @@ public:
     string param;
     string reg;
 
-    Symbol(const string name, const string type, int offset, bool function, string param, string reg): name(name), type(type), offset(offset), function(function), param(param), reg(reg) {}
+    Symbol(const string name, const string type, int offset, bool function, string param): name(name), type(type), offset(offset), function(function), param(param){}
 
     ~Symbol()=default;
 };
