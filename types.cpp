@@ -415,7 +415,8 @@ Call::Call(Node *funcID, Node *node)
             exit(0);
         }
     }
-    buffer.emit(symbol->name);
+    scopeSymbolTable.pop_scope();
+    //buffer.emit(symbol->name);
     /*this->value = symbol->name;
     this->type = symbol->type;
     if(type == "void" && exp->type == "int" && value == "printi")
