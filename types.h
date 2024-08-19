@@ -16,7 +16,6 @@ using std::vector;
 class Node
 {
 public:
-    string reg = "";
     string value;
     Node(const string value = "");
     Node(const Node &node);

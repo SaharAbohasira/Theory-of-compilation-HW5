@@ -19,12 +19,10 @@ using namespace std;
 
 Node::Node(const std::string value): value(value)
 {
-    reg = codeGenerator.freshVar();
 }
 
 Node::Node(const Node &node): value(node.value)
 {
-    reg = buffer.emit(reg + " = add i32 " + node.reg + ", 0");
 }
 
 Exp::Exp(Node *node1, Node *node2, const std::string op, const std::string type1): isVar(false)
@@ -147,6 +145,7 @@ Exp::Exp(Node *node1, Node *node2, const std::string op, const std::string type1
         {
             if(exp1->type == "int")
             {
+
                 buffer.emit(reg + "= icmp slt i32 " + exp1->reg +", " + exp2->reg);
             }
             if(exp1->type == "byte")
