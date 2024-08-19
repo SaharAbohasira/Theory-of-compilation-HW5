@@ -533,7 +533,7 @@ Statement::Statement(Type *type, Node *id, Exp *exp)
     scopeSymbolTable.add_symbol(id->value, type->type, false, "", id->reg);
     Symbol *s = scopeSymbolTable.get_symbol(id->value);
 
-    if(type->type == "bool")
+    if(type->type == "bol")
     {
         string reg_ptr = codeGenerator.freshVar();
         string new_reg = codeGenerator.freshVar();
