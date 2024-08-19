@@ -533,9 +533,10 @@ Statement::Statement(Type *type, Node *id, Exp *exp)
         output::errorMismatch(yylineno);
         exit(0);
     }
+    cout << "bye1" << endl;
     scopeSymbolTable.add_symbol(id->value, type->type, false, "", id->reg);
     Symbol *s = scopeSymbolTable.get_symbol(id->value);
-
+    cout << "bye2" << endl;
     if(type->type == "bool")
     {
         string reg_ptr = codeGenerator.freshVar();
