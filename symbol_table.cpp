@@ -100,6 +100,7 @@ Symbol *ScopeSymbolTable::get_symbol(const string &name)
 void ScopeSymbolTable::push_scope(bool is_loop, string return_type)
 {
     SymbolTable* scope = new SymbolTable(offset_vector.back(), is_loop, return_type);
+    scope->rbp =
     this->stack.push_back(scope);
     offset_vector.push_back(stack.back()->scope_offset);
     if(stack.size() > 0)
