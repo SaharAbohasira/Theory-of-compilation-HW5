@@ -55,7 +55,7 @@ Statement: LBRACE {scopeSymbolTable.push_scope();     scopeSymbolTable.current_s
              scopeSymbolTable.push_scope(true);
                   scopeSymbolTable.current_scope()->rbp = codeGenerator.freshVar();
                    buffer.emit(scopeSymbolTable.current_scope()->rbp + " = alloca i32, i32 50");
-                    buffer.emit("br i1 " + dynamic_cast<Exp*>($4)->reg + ", label %" + dynamic_cast<Label*>($2)->true_label + ", label %" + dynamic_cast<Label*>($2)->false_label);
+                    //buffer.emit("br i1 " + dynamic_cast<Exp*>($4)->reg + ", label %" + dynamic_cast<Label*>($2)->true_label + ", label %" + dynamic_cast<Label*>($2)->false_label);
                      buffer.emit(dynamic_cast<Label*>($2)->true_label + ":");} Statement
            {$$ = new Statement("WHILE", $4);
            /*std::cout << "end scope line: " << yylineno<< std::endl;*/ buffer.emit("br label %" + dynamic_cast<Label*>($2)->next_label); buffer.emit(dynamic_cast<Label*>($2)->false_label + ":"); whileNextStack.pop_back(); whileLabelStack.pop_back(); scopeSymbolTable.pop_scope();}
