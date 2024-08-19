@@ -244,6 +244,14 @@ Exp::Exp(Node *node, bool isVar): Node(), isVar(isVar)
         string reg_ptr = codeGenerator.freshVar();
         buffer.emit(reg_ptr + " = getelementptr i32, i32* " + scopeSymbolTable.current_scope()->rbp + ", i32 " + std::to_string(s->offset));
         buffer.emit(reg + " = load i32, i32* " + reg_ptr);
+        if(s->type == "byte")
+        {
+            buffer.emit(reg + " = trunc i32 " + reg + " to i8");
+        }
+        else if(s->type == "bool")
+        {
+            buffer.emit(reg + " = icmp ne i32 " + reg + ", 0");
+        }
     }
 }
 
@@ -520,8 +528,10 @@ Statement::Statement(Type *type, Node *id, Exp *exp)
     if(type->type == "bool")
     {
         string reg_ptr = codeGenerator.freshVar();
+        string new_reg = codeGenerator.freshVar();
+        buffer.emit(new_reg + " = zext i1 " + exp->reg + " to i32");
         buffer.emit(reg_ptr + " = getelementptr i32, i32* " + scopeSymbolTable.current_scope()->rbp + ", i32 " + std::to_string(s->offset));
-        buffer.emit("store i32 " + exp->reg + ", i32* " + reg_ptr);
+        buffer.emit("store i32 " + new_reg + ", i32* " + reg_ptr);
     }
     else if(type->type == "int")
     {
@@ -532,8 +542,10 @@ Statement::Statement(Type *type, Node *id, Exp *exp)
     else if(type->type == "byte")
     {
         string reg_ptr = codeGenerator.freshVar();
+        string new_reg = codeGenerator.freshVar();
+        buffer.emit(new_reg + " = zext i8 " + exp->reg + " to i32");
         buffer.emit(reg_ptr + " = getelementptr i32, i32* " + scopeSymbolTable.current_scope()->rbp + ", i32 " + std::to_string(s->offset));
-        buffer.emit("store i32 " + exp->reg + ", i32* " + reg_ptr);
+        buffer.emit("store i32 " + new_reg + ", i32* " + reg_ptr);
     }
 
     //Exp *id_exp = new Exp();
@@ -614,8 +626,10 @@ Statement::Statement(Node *id, Exp *exp)
     if(symbol->type == "bool")
     {
         string reg_ptr = codeGenerator.freshVar();
+        string new_reg = codeGenerator.freshVar();
+        buffer.emit(new_reg + " = zext i1 " + exp->reg + " to i32");
         buffer.emit(reg_ptr + " = getelementptr i32, i32* " + scopeSymbolTable.current_scope()->rbp + ", i32 " + std::to_string(symbol->offset));
-        buffer.emit("store i32 " + exp->reg + ", i32* " + reg_ptr);
+        buffer.emit("store i32 " + new_reg + ", i32* " + reg_ptr);
     }
     else if(symbol->type == "int")
     {
@@ -626,8 +640,10 @@ Statement::Statement(Node *id, Exp *exp)
     else if(symbol->type == "byte")
     {
         string reg_ptr = codeGenerator.freshVar();
+        string new_reg = codeGenerator.freshVar();
+        buffer.emit(new_reg + " = zext i8 " + exp->reg + " to i32");
         buffer.emit(reg_ptr + " = getelementptr i32, i32* " + scopeSymbolTable.current_scope()->rbp + ", i32 " + std::to_string(symbol->offset));
-        buffer.emit("store i32 " + exp->reg + ", i32* " + reg_ptr);
+        buffer.emit("store i32 " + new_reg + ", i32* " + reg_ptr);
     }
     //std::cout << "symbol: "<< symbol->type << "exp: " << exp->type << std::endl;
 }
