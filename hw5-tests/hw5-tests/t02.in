@@ -1,5 +1,5 @@
     byte i = 0b;
     while (i < 10) {
-        printi(i);
+        i = i + 1b
     }
     print("*");
