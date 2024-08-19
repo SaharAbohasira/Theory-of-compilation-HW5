@@ -415,7 +415,7 @@ Call::Call(Node *funcID, Node *node)
             exit(0);
         }
     }
-    this->value = "a";
+    symbol->name = "a";
     /*this->value = symbol->name;
     this->type = symbol->type;
     if(type == "void" && exp->type == "int" && value == "printi")
