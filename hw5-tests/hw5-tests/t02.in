@@ -1,4 +1,5 @@
     byte i = 0b;
     while (i < 10) {
+        printi(i);
     }
     print("*");
