@@ -40,8 +40,7 @@ Program: Statements                                             {$$ = new Progra
 Statements: Statement                                           {$$ = new Statements(dynamic_cast<Statement*>($1));}
             | Statements Statement                              {$$ = new Statements(dynamic_cast<Statements*>($1),dynamic_cast<Statement*>($2));}
 
-Statement: LBRACE {scopeSymbolTable.push_scope();     scopeSymbolTable.current_scope()->rbp = codeGenerator.freshVar();
-                                                      buffer.emit(scopeSymbolTable.current_scope()->rbp + " = alloca i32, i32 50");} Statements {scopeSymbolTable.pop_scope();} RBRACE {$$ = new Statement(); delete $3;}
+Statement: LBRACE {scopeSymbolTable.push_scope();} Statements {scopeSymbolTable.pop_scope();} RBRACE {$$ = new Statement(); delete $3;}
            | Type ID SC                                         {$$ = new Statement(dynamic_cast<Type*>($1), $2);}
            | Type ID ASSIGN Exp SC                              {$$ = new Statement(dynamic_cast<Type*>($1), $2, dynamic_cast<Exp*>($4));}
            | ID ASSIGN Exp SC                                   {$$ = new Statement($1, dynamic_cast<Exp*>($3));}
@@ -49,7 +48,7 @@ Statement: LBRACE {scopeSymbolTable.push_scope();     scopeSymbolTable.current_s
            | RETURN SC                                          {$$ = new Statement(new Exp(), true);}
            | IF_ Statement  {$$ = new Statement("IF", dynamic_cast<IF_*>($1)->exp); scopeSymbolTable.pop_scope(); buffer.emit("br label %" + dynamic_cast<IF_*>($1)->label->false_label); buffer.emit(dynamic_cast<IF_*>($1)->label->false_label + ":");} %prec LOWER_THAN_ELSE
            | IF_ Statement ELSE {/*std::cout << "end scope line: " << yylineno<< std::endl;*/ scopeSymbolTable.pop_scope(); buffer.emit("br label %" + dynamic_cast<IF_*>($1)->label->next_label); buffer.emit(dynamic_cast<IF_*>($1)->label->false_label + ":");} PUSH Statement      {$$ = new Statement("IF_", dynamic_cast<IF_*>($1)->exp);/*std::cout << "end scope line: " << yylineno<< std::endl;*/ scopeSymbolTable.pop_scope(); buffer.emit("br label %" + dynamic_cast<IF_*>($1)->label->next_label); buffer.emit(dynamic_cast<IF_*>($1)->label->next_label + ":");}
-           | WHILE W_Label LPAREN ISBOOL RPAREN {whileNextStack.push_back(dynamic_cast<Label*>($2)->false_label); whileLabelStack.push_back(dynamic_cast<Label*>($2)->next_label); scopeSymbolTable.push_scope(true);     scopeSymbolTable.current_scope()->rbp = codeGenerator.freshVar(); buffer.emit(scopeSymbolTable.current_scope()->rbp + " = alloca i32, i32 50"); buffer.emit("br i1 " + dynamic_cast<Exp*>($4)->reg + ", label %" + dynamic_cast<Label*>($2)->true_label + ", label %" + dynamic_cast<Label*>($2)->false_label); buffer.emit(dynamic_cast<Label*>($2)->true_label + ":");} Statement {$$ = new Statement("WHILE", $4);/*std::cout << "end scope line: " << yylineno<< std::endl;*/ buffer.emit("br label %" + dynamic_cast<Label*>($2)->next_label); buffer.emit(dynamic_cast<Label*>($2)->false_label + ":"); whileNextStack.pop_back(); whileLabelStack.pop_back(); scopeSymbolTable.pop_scope();}
+           | WHILE W_Label LPAREN ISBOOL RPAREN {whileNextStack.push_back(dynamic_cast<Label*>($2)->false_label); whileLabelStack.push_back(dynamic_cast<Label*>($2)->next_label); scopeSymbolTable.push_scope(true); buffer.emit("br i1 " + dynamic_cast<Exp*>($4)->reg + ", label %" + dynamic_cast<Label*>($2)->true_label + ", label %" + dynamic_cast<Label*>($2)->false_label); buffer.emit(dynamic_cast<Label*>($2)->true_label + ":");} Statement {$$ = new Statement("WHILE", $4);/*std::cout << "end scope line: " << yylineno<< std::endl;*/ buffer.emit("br label %" + dynamic_cast<Label*>($2)->next_label); buffer.emit(dynamic_cast<Label*>($2)->false_label + ":"); whileNextStack.pop_back(); whileLabelStack.pop_back(); scopeSymbolTable.pop_scope();}
            | BREAK SC                                           {$$ = new Statement($1); buffer.emit("br label %" + whileNextStack.back()); whileNextStack.pop_back(); whileLabelStack.pop_back();}
            | CONTINUE SC                                        {$$ = new Statement($1); buffer.emit("br label %" + whileLabelStack.back());}
 
@@ -77,8 +76,7 @@ Exp: LPAREN Exp RPAREN                                          {$$ = new Exp(dy
      | Exp EQUALITY Exp                                         {$$ = new Exp($1, $3, $2->value, "relop");}
      | LPAREN Type RPAREN Exp                                   {$$ = new Exp(dynamic_cast<Type*>($2), dynamic_cast<Exp*>($4));}
 
-PUSH:                                                           {/*std::cout << "start scope line: " << yylineno << std::endl;*/ scopeSymbolTable.push_scope();    scopeSymbolTable.current_scope()->rbp = codeGenerator.freshVar();
-                                                                                                                                                                   buffer.emit(scopeSymbolTable.current_scope()->rbp + " = alloca i32, i32 50");}
+PUSH:                                                           {/*std::cout << "start scope line: " << yylineno << std::endl;*/ scopeSymbolTable.push_scope();}
 ISBOOL: Exp                                                     {is_bool($1);}
 IF_: IF LPAREN ISBOOL RPAREN PUSH Label                     {buffer.emit("br i1 " + dynamic_cast<Exp*>($3)->reg + ", label %" + dynamic_cast<Label*>($6)->true_label + ", label %"+ dynamic_cast<Label*>($6)->false_label); $$ = new IF_(dynamic_cast<Exp*>($3),dynamic_cast<Label*>($6)); buffer.emit(dynamic_cast<Label*>($6)->true_label + ":");}
 Label:                                                          {$$ = new Label();}

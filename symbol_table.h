@@ -33,7 +33,6 @@ public:
     bool is_loop;
     string* return_type;
     int scope_offset;
-    string rbp;
 
     SymbolTable(int scope_offset, bool is_loop, string return_type = ""): symbols(), scope_offset(scope_offset), is_loop(is_loop)
     {
@@ -53,6 +52,8 @@ class ScopeSymbolTable
 public:
     vector <SymbolTable*> stack;
     vector <int> offset_vector;
+
+    string rbp;
 
     ScopeSymbolTable();
 
