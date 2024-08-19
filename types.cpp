@@ -254,7 +254,7 @@ Exp::Exp(Node *node, bool isVar): Node(), isVar(isVar)
         {
             string reg_copy = codeGenerator.freshVar();
             buffer.emit(reg_copy + " = add i32 " + reg + ", 0");
-            buffer.emit(reg + " = icmp neq i32 " + reg_copy + ", 0");
+            buffer.emit(reg + " = icmp ne i32 " + reg_copy + ", 0");
         }
     }
 }
