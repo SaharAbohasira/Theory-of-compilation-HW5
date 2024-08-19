@@ -492,6 +492,7 @@ Statement::Statement(Type *type, Node *id) : Node()
     scopeSymbolTable.add_symbol(id->value, type->type, false,"");
     Symbol *s = scopeSymbolTable.get_symbol(id->value);
     Exp* temp_exp = new Exp();
+    temp_exp->reg = codeGenerator.freshVar();
     if(type->type == "bool")
     {
         temp_exp->value = "false";
