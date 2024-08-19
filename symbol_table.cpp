@@ -106,10 +106,10 @@ void ScopeSymbolTable::push_scope(bool is_loop, string return_type)
     offset_vector.push_back(stack.back()->scope_offset);
     if(stack.size() > 0)
     {
-        scope->rbp = stack.back()->rbp;
+        //scope->rbp = stack.back()->rbp;
     }
     else {
-        scope->rbp = "";
+        //scope->rbp = "";
     }
 }
 
