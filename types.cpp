@@ -395,6 +395,7 @@ string stringToUpper(const string &s)
 
 Call::Call(Node *funcID, Node *node)
 {
+    scopeSymbolTable.pop_scope();
     if(!scopeSymbolTable.is_symbol_exist(funcID->value))
     {
         output::errorUndefFunc(yylineno, funcID->value);
@@ -415,7 +416,6 @@ Call::Call(Node *funcID, Node *node)
             exit(0);
         }
     }
-    scopeSymbolTable.pop_scope();
     //buffer.emit(symbol->name);
     /*this->value = symbol->name;
     this->type = symbol->type;
