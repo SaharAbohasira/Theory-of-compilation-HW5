@@ -506,7 +506,7 @@ Statement::Statement(Type *type, Node *id) : Node()
 
 Statement::Statement(Type *type, Node *id, Exp *exp)
 {
-    cout << "type: " << type->type << endl;
+    cout << "id val: " << id->value << endl;
     if(scopeSymbolTable.is_symbol_exist(id->value))
     {
         output::errorDef(yylineno, id->value);
