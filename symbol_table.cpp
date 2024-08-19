@@ -120,18 +120,18 @@ void ScopeSymbolTable::pop_scope()
 {
     SymbolTable* scope = stack.back();
     stack.pop_back();
-    output::endScope();
+    //output::endScope();
     for(auto it = scope->symbols.begin(); it != scope->symbols.end(); ++it)
     {
         offset_vector.pop_back();
-        if((*it)->function)
+        /*if((*it)->function)
         {
             output::printID((*it)->name, 0, output::makeFunctionType(to_uppercase((*it)->param), to_uppercase((*it)->type)));
         }
         else
         {
             output::printID((*it)->name, (*it)->offset, to_uppercase((*it)->type));
-        }
+        }*/
     }
     if (!offset_vector.empty())
     {
