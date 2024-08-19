@@ -45,7 +45,7 @@ Symbol *SymbolTable::get_symbol(const string &name)
 
 void SymbolTable::add_symbol(const Symbol &symbol)
 {
-    Symbol* new_symbol = new Symbol(symbol.name, symbol.type, symbol.offset, symbol.function, symbol.param, symbol.reg);
+    Symbol* new_symbol = new Symbol(symbol.name, symbol.type, symbol.offset, symbol.function, symbol.param);
     symbols.push_back(new_symbol);
     if (symbol.offset >= 0)
     {
