@@ -250,7 +250,7 @@ Exp::Exp(Node *node, bool isVar): Node(), isVar(isVar)
         }
         else if(s->type == "bool")
         {
-            buffer.emit(reg + " = icmp ne i32 " + reg + ", 0");
+            buffer.emit(reg + " = icmp neq i32 " + reg + ", 0");
         }
     }
 }
