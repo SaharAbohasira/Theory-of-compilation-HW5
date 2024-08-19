@@ -371,21 +371,25 @@ Exp::Exp(Type* type1, Exp* exp): Node(exp->value), type(type1->type)
     {
         reg = codeGenerator.freshVar();
         buffer.emit(reg + " = add i32 " + exp->reg + ", 0");
+        type = "int";
     }
     else if(type1->type == "int" && exp->type == "byte")
     {
         reg = codeGenerator.freshVar();
         buffer.emit(reg + " = zext i8 " + exp->reg + " to i32");
+        type = "int";
     }
     else if(type1->type == "byte" && exp->type == "int")
     {
         reg = codeGenerator.freshVar();
         buffer.emit(reg + " = trunc i32 " + exp->reg + " to i8");
+        type = "byte";
     }
     else if(type1->type == "byte" && exp->type == "byte")
     {
         reg = codeGenerator.freshVar();
         buffer.emit(reg + " = add i8 " + exp->reg + ", 0");
+        type = "byte";
     }
     /*if(DEBUG)
     {
