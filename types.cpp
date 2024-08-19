@@ -461,7 +461,7 @@ Statement::Statement(Type *type, Node *id) : Node()
         exit(0);
     }
     value = type->value;
-    scopeSymbolTable.add_symbol(id->value, type->type, false,"", id->reg);
+    scopeSymbolTable.add_symbol(id->value, type->type, false,"");
     Symbol *s = scopeSymbolTable.get_symbol(id->value);
     Exp* temp_exp = new Exp();
     if(value == "bool")
@@ -529,7 +529,7 @@ Statement::Statement(Type *type, Node *id, Exp *exp)
         output::errorMismatch(yylineno);
         exit(0);
     }
-    scopeSymbolTable.add_symbol(id->value, type->type, false, "", id->reg);
+    scopeSymbolTable.add_symbol(id->value, type->type, false, "");
     Symbol *s = scopeSymbolTable.get_symbol(id->value);
     if(type->type == "bool")
     {

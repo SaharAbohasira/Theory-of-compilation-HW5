@@ -140,7 +140,7 @@ void ScopeSymbolTable::pop_scope()
     delete scope;
 }
 
-void ScopeSymbolTable::add_symbol(const string &name, const string &type, bool function, string param, string reg)
+void ScopeSymbolTable::add_symbol(const string &name, const string &type, bool function, string param)
 {
     int offset;
     if (function)
@@ -150,7 +150,7 @@ void ScopeSymbolTable::add_symbol(const string &name, const string &type, bool f
         offset = offset_vector.back();
         offset_vector.push_back(offset + 1);
     }
-    Symbol symbol = Symbol(name, type, offset, function, param, reg);
+    Symbol symbol = Symbol(name, type, offset, function, param);
     SymbolTable* scope = stack.back();
     scope->add_symbol(symbol);
 }
