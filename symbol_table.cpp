@@ -169,18 +169,10 @@ bool ScopeSymbolTable::is_loop()
 }
 
 void ScopeSymbolTable::check_program() {
-    SymbolTable *main_scope = scopeSymbolTable.stack.front();
-    if (main_scope->symbol_exists("main")) {
-        Symbol *main_symbol = main_scope->get_symbol("main");
-        if (main_symbol->type == "void") {
-            if (main_symbol->param != "") {
-                scopeSymbolTable.pop_scope();
-                return;
-            }
-        }
+    while(!scopeSymbolTable.stack.empty())
+    {
+        scopeSymbolTable.pop_scope();
     }
-    output::errorMainMissing();
-    exit(0);
 }
 
 
