@@ -111,15 +111,34 @@ Exp::Exp(Node *node1, Node *node2, const std::string op, const std::string type1
             exit(0);
         }
         this->type = "bool";
+        string new_reg1 = codeGenerator.freshVar();
+        string new_reg2 = codeGenerator.freshVar();
+        if(exp1->type == "int")
+        {
+            buffer.emit(new_reg1 +" = add i32 " + exp1->reg + ", 0");
+        }
+        else if(exp1->type == "byte")
+        {
+            buffer.emit(new_reg1 + " = zext i8 " + exp1->reg + " to i32");
+        }
+
+        if(exp2->type == "int")
+        {
+            buffer.emit(new_reg2 +" = add i32 " + exp2->reg + ", 0");
+        }
+        else if(exp2->type == "byte")
+        {
+            buffer.emit(new_reg2 + " = zext i8 " + exp2->reg + " to i32");
+        }
         if(op == "==")
         {
             if(exp1->type == "int")
             {
-                buffer.emit(reg + "= icmp eq i32 " + exp1->reg +", " + exp2->reg);
+                buffer.emit(reg + "= icmp eq i32 " + new_reg1 +", " + new_reg2);
             }
             if(exp1->type == "byte")
             {
-                buffer.emit(reg + "= icmp eq i8 " + exp1->reg +", " + exp2->reg);
+                buffer.emit(reg + "= icmp eq i8 " + new_reg1 +", " + new_reg2);
             }
             if(exp1->type == "bool")
             {
@@ -130,11 +149,11 @@ Exp::Exp(Node *node1, Node *node2, const std::string op, const std::string type1
         {
             if(exp1->type == "int")
             {
-                buffer.emit(reg + "= icmp ne i32 " + exp1->reg +", " + exp2->reg);
+                buffer.emit(reg + "= icmp ne i32 " + new_reg1 +", " + new_reg2);
             }
             if(exp1->type == "byte")
             {
-                buffer.emit(reg + "= icmp ne i8 " + exp1->reg +", " + exp2->reg);
+                buffer.emit(reg + "= icmp ne i8 " + new_reg1 +", " + new_reg2);
             }
             if(exp1->type == "bool")
             {
@@ -146,11 +165,12 @@ Exp::Exp(Node *node1, Node *node2, const std::string op, const std::string type1
             if(exp1->type == "int")
             {
 
-                buffer.emit(reg + "= icmp slt i32 " + exp1->reg +", " + exp2->reg);
+                buffer.emit(reg + "= icmp slt i32 " + new_reg1 +", " + new_reg2);
             }
             if(exp1->type == "byte")
             {
-                buffer.emit(reg + "= icmp slt i8 " + exp1->reg +", " + exp2->reg);
+
+                buffer.emit(reg + "= icmp slt i8 " + new_reg1 +", " + new_reg2);
             }
             if(exp1->type == "bool")
             {
@@ -161,26 +181,26 @@ Exp::Exp(Node *node1, Node *node2, const std::string op, const std::string type1
         {
             if(exp1->type == "int")
             {
-                buffer.emit(reg + "= icmp sgt i32 " + exp1->reg +", " + exp2->reg);
+                buffer.emit(reg + "= icmp sgt i32 " + new_reg1 +", " + new_reg2);
             }
             if(exp1->type == "byte")
             {
-                buffer.emit(reg + "= icmp sgt i8 " + exp1->reg +", " + exp2->reg);
+                buffer.emit(reg + "= icmp sgt i8 " + new_reg1 +", " + new_reg2);
             }
             if(exp1->type == "bool")
             {
-                buffer.emit(reg + "= icmp sgt i1 " + exp1->reg +", " + exp2->reg);
+                buffer.emit(reg + "= icmp sgt i1 " + new_reg1 +", " + new_reg2);
             }
         }
         else if(op == "<=")
         {
             if(exp1->type == "int")
             {
-                buffer.emit(reg + "= icmp sle i32 " + exp1->reg +", " + exp2->reg);
+                buffer.emit(reg + "= icmp sle i32 " + new_reg1 +", " + new_reg2);
             }
             if(exp1->type == "byte")
             {
-                buffer.emit(reg + "= icmp sle i8 " + exp1->reg +", " + exp2->reg);
+                buffer.emit(reg + "= icmp sle i8 " + new_reg1 +", " + new_reg2);
             }
             if(exp1->type == "bool")
             {
@@ -191,11 +211,11 @@ Exp::Exp(Node *node1, Node *node2, const std::string op, const std::string type1
         {
             if(exp1->type == "int")
             {
-                buffer.emit(reg + "= icmp gte i32 " + exp1->reg +", " + exp2->reg);
+                buffer.emit(reg + "= icmp gte i32 " + new_reg1 +", " + new_reg2);
             }
             if(exp1->type == "byte")
             {
-                buffer.emit(reg + "= icmp gte i8 " + exp1->reg +", " + exp2->reg);
+                buffer.emit(reg + "= icmp gte i8 " + new_reg1 +", " + new_reg2);
             }
             if(exp1->type == "bool")
             {
