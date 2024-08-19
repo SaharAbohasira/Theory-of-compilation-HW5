@@ -59,7 +59,7 @@ Statement: LBRACE {scopeSymbolTable.push_scope();} Statements {scopeSymbolTable.
                  whileNextStack.pop_back();
                   whileLabelStack.pop_back();
                    scopeSymbolTable.pop_scope();}
-           | BREAK SC                                           {$$ = new Statement($1); buffer.emit("br label %" + whileNextStack.back()); whileNextStack.pop_back(); whileLabelStack.pop_back();}
+           | BREAK SC                                           {$$ = new Statement($1); buffer.emit("br label %" + whileNextStack.back()); /*whileNextStack.pop_back(); whileLabelStack.pop_back();*/}
            | CONTINUE SC                                        {$$ = new Statement($1); buffer.emit("br label %" + whileLabelStack.back());}
 
 Call: ID LPAREN Exp RPAREN                                {$$ = new Call($1, $3);}
