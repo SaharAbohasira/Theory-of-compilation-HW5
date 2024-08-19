@@ -416,8 +416,8 @@ Call::Call(Node *funcID, Node *node)
         }
     }
     this->value = symbol->name;
-    this->type = symbol->type;
     /*
+    this->type = symbol->type;
     if(type == "void" && exp->type == "int" && value == "printi")
     {
         buffer.emit("call void @" + value + "(i32 " + exp->reg + ")");
