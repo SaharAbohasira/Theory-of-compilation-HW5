@@ -1,8 +1,10 @@
-    byte i = 0b;
-    while (i < 10) {
-        printi(i);
-        if (i+1 < 10)
-            print("*");
-        i = i + 1b;
+{
+    int x = 1;
+    int y = 2;
+    byte z = 3 b;
+    {
+        int f = x + y;
+        int h = x + y;
     }
-    print("*");
+    return;
+}

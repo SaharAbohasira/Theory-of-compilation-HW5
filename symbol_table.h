@@ -71,6 +71,8 @@ public:
     Symbol *get_symbol(const string &name);
 
     void add_symbol(const string &name, const string &type, bool function, string param = "");
+
+    void check_program();
 };
 
 
