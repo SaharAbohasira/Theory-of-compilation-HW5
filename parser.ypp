@@ -97,6 +97,7 @@ int main(){
     buffer.emit(scopeSymbolTable.current_scope()->rbp + " = alloca i32, i32 50");
     int parse = yyparse();
     scopeSymbolTable.pop_scope();
+    scopeSymbolTable.checkProgram();
     buffer.emit("ret i32 0");
     buffer.emit("}");
     buffer.printGlobalBuffer();

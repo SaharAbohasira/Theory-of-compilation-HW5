@@ -5,6 +5,8 @@
 #include "symbol_table.h"
 #include "hw3_output.hpp"
 
+extern ScopeSymbolTable scopeSymbolTable;
+
 string to_uppercase(const string &s)
 {
     if (s == "void")
@@ -164,6 +166,21 @@ bool ScopeSymbolTable::is_loop()
             return true;
     }
     return false;
+}
+
+void ScopeSymbolTable::check_program() {
+    SymbolTable *main_scope = scopeSymbolTable.stack.front();
+    if (main_scope->symbol_exists("main")) {
+        Symbol *main_symbol = main_scope->get_symbol("main");
+        if (main_symbol->type == "void") {
+            if (main_symbol->param != "") {
+                scopeSymbolTable.pop_scope();
+                return;
+            }
+        }
+    }
+    output::errorMainMissing();
+    exit(0);
 }
 
 
