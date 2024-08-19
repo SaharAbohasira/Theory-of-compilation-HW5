@@ -99,6 +99,7 @@ Exp::Exp(Node *node1, Node *node2, const std::string op, const std::string type1
             {
                 buffer.emit(reg + " = sdiv i32 " + new_reg1 + ", " + new_reg2);
             }
+
         } else
         {
             this->type = "byte";
@@ -118,13 +119,12 @@ Exp::Exp(Node *node1, Node *node2, const std::string op, const std::string type1
             {
                 buffer.emit(reg + " = udiv i8 " + exp1->reg + ", " + exp2->reg);
             }
-            string trunc_reg = codeGenerator.freshVar();
+            /*string trunc_reg = codeGenerator.freshVar();
             buffer.emit(trunc_reg + " = trunc i8 " + reg + " to i8");
             string new_reg = codeGenerator.freshVar();
             buffer.emit(new_reg + " = add i8 " + trunc_reg + ", 0");
-            reg = new_reg;
+            reg = new_reg;*/
         }
-
     }
     else if(type1 == "relop")
     {
