@@ -407,6 +407,7 @@ Call::Call(Node *funcID, Node *node)
         exit(0);
     }
     Exp *exp = dynamic_cast<Exp *>(node);
+    std::cout << exp->type << endl; #DELETE
     /*
     if ( exp->type != symbol->param)
     {
