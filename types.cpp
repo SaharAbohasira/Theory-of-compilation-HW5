@@ -595,9 +595,18 @@ Statement::Statement(Type *type, Node *id, Exp *exp)
     }
     else if(type->type == "int")
     {
+        string new_reg = codeGenerator.freshVar();
+        if(exp->type == "byte")
+        {
+            buffer.emit(new_reg + " = zext i8 " + exp->reg + " to i32");
+        }
+        else
+        {
+            new_reg = exp->reg;
+        }
         string reg_ptr = codeGenerator.freshVar();
         buffer.emit(reg_ptr + " = getelementptr i32, i32* " + scopeSymbolTable.rbp + ", i32 " + std::to_string(s->offset));
-        buffer.emit("store i32 " + exp->reg + ", i32* " + reg_ptr);
+        buffer.emit("store i32 " + new_reg + ", i32* " + reg_ptr);
     }
     else if(type->type == "byte")
     {
