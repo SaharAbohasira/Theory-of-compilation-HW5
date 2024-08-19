@@ -16,6 +16,7 @@ using std::vector;
 class Node
 {
 public:
+    string reg = "";
     string value;
     Node(const string value = "");
     Node(const Node &node);
@@ -42,7 +43,7 @@ public:
     string true_label = "";
     string false_label = "";
     string next_label = "";
-    Exp(Exp *exp);
+    Exp(Exp *exp): Node(exp->value), type(exp->type){};
     Exp(Node *node, bool isVar);
     Exp(): Node(), type("void"), isVar(false){};
     Exp(const string type, Node *terminal);
@@ -61,7 +62,6 @@ class Call : public Node {
 public:
     string type;
     Call(Node *funcID, Node *node);
-    string reg = "";
     //Call(Node* funcID);
     virtual ~Call() = default;
 };
