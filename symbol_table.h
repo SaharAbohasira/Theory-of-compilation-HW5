@@ -20,7 +20,6 @@ public:
     int offset;
     bool function;
     string param;
-    string reg;
 
     Symbol(const string name, const string type, int offset, bool function, string param): name(name), type(type), offset(offset), function(function), param(param){}
 
