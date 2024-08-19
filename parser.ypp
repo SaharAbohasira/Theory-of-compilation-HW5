@@ -91,8 +91,8 @@ int main(){
     //yydebug = 1;
     buffer.initialEmits();
     buffer.emit("define i32 @main(){");
-    scopeSymbolTable.current_scope()->rbp = codeGenerator.freshVar();
-    buffer.emit(scopeSymbolTable.current_scope()->rbp + " = alloca i32, i32 50");
+    scopeSymbolTable.rbp = codeGenerator.freshVar();
+    buffer.emit(scopeSymbolTable.rbp + " = alloca i32, i32 50");
     int parse = yyparse();
     scopeSymbolTable.pop_scope();
     scopeSymbolTable.check_program();
