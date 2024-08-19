@@ -120,7 +120,7 @@ void ScopeSymbolTable::pop_scope()
 {
     SymbolTable* scope = stack.back();
     stack.pop_back();
-    //output::endScope();
+    output::endScope();
     for(auto it = scope->symbols.begin(); it != scope->symbols.end(); ++it)
     {
         offset_vector.pop_back();
