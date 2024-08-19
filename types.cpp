@@ -405,7 +405,7 @@ Call::Call(Node *funcID, Node *node)
     {
         output::errorUndefFunc(yylineno, funcID->value);
         exit(0);
-    }a
+    }
     Exp *exp = dynamic_cast<Exp *>(node);
     /*
     if ( exp->type != symbol->param)
