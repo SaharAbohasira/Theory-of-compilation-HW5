@@ -430,9 +430,18 @@ Call::Call(Node *funcID, Node *node)
     }
     this->value = symbol->name;
     this->type = symbol->type;
-    if(type == "void" && exp->type == "int" && value == "printi")
+    if(type == "void" && (exp->type == "int" || exp->type == "byte") && value == "printi")
     {
-        buffer.emit("call void @" + value + "(i32 " + exp->reg + ")");
+        string new_reg = codeGenerator.freshVar();
+        if(exp->type == "byte")
+        {
+            buffer.emit(new_reg + " = zext i8 " + exp->reg + " to i32");
+        }
+        else
+        {
+            buffer.emit(new_reg + " = add i32 " + exp->reg + ", 0");
+        }
+        buffer.emit("call void @" + value + "(i32 " + new_reg + ")");
     }
     else if(type == "void" && exp->type == "string" && value == "print")
     {
