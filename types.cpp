@@ -506,12 +506,12 @@ Statement::Statement(Type *type, Node *id) : Node()
 
 Statement::Statement(Type *type, Node *id, Exp *exp)
 {
-    cout << "id val: " << id->value << endl;
     if(scopeSymbolTable.is_symbol_exist(id->value))
     {
         output::errorDef(yylineno, id->value);
         exit(0);
     }
+    cout << "exp val: " << exp->value << endl;
     if((!scopeSymbolTable.is_symbol_exist(exp->value) && exp->isVar))
     {
         output::errorUndef(yylineno, exp->value);
