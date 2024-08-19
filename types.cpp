@@ -367,6 +367,26 @@ Exp::Exp(Type* type1, Exp* exp): Node(exp->value), type(type1->type)
         output::errorMismatch(yylineno);
         exit(0);
     }
+    if(type1->type == "int" && exp->type == "int")
+    {
+        reg = codeGenerator.freshVar();
+        buffer.emit(reg + " = add i32 " + exp->reg + ", 0");
+    }
+    else if(type1->type == "int" && exp->type == "byte")
+    {
+        reg = codeGenerator.freshVar();
+        buffer.emit(reg + " = zext i8 " + exp->reg + " to i32");
+    }
+    else if(type1->type == "byte" && exp->type == "int")
+    {
+        reg = codeGenerator.freshVar();
+        buffer.emit(reg + " = trunc i32 " + exp->reg + " to i8");
+    }
+    else if(type1->type == "byte" && exp->type == "byte")
+    {
+        reg = codeGenerator.freshVar();
+        buffer.emit(reg + " = add i8 " + exp->reg + ", 0");
+    }
     /*if(DEBUG)
     {
         std::cout << "* node value: " << node->value << "\n" << std::endl;
