@@ -1,2 +1,4 @@
     byte i = 0b;
-    print("hi");
+    while (i < 10) {
+        print("hi");
+    }
