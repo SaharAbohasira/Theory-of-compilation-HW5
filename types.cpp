@@ -478,7 +478,7 @@ Call::Call(Node *funcID, Node *node)
     }
     else if(type == "int" && exp->type == "int" && value == "readi")
     {
-        buffer.emit("call int @" + value + "(i32 " + exp->reg + ")");
+        buffer.emit("call i32 @" + value + "(i32 " + exp->reg + ")");
     }
 }
 
