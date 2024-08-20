@@ -75,7 +75,7 @@ void CodeBuffer::printDefinitions()
     emit("}");
     emit("define i32 @readi(i32) {");
     emit("%ret_val = alloca i32");
-    emit("%spec_ptr = getelementptr [3 x i8], [3 x i8]* @.int_specifier_scan, i32 0, i32 0")
+    emit("%spec_ptr = getelementptr [3 x i8], [3 x i8]* @.int_specifier_scan, i32 0, i32 0");
     emit("call i32 (i8*, ...) @scanf(i8* %spec_ptr, i32* %ret_val)");
     emit("%val = load i32, i32* %ret_val");
     emit("ret i32 %val");
