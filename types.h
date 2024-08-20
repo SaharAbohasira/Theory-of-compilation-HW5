@@ -106,6 +106,7 @@ public:
     string true_label;
     string false_label;
     string next_label;
+    string false_label2;
     Label();
     virtual ~Label() = default;
 };

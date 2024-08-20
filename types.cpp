@@ -823,6 +823,7 @@ Label::Label() : Node("")
     true_label = buffer.freshLabel(); // + "_true";
     false_label = buffer.freshLabel(); // + "_false";
     next_label = buffer.freshLabel(); // + "_next";
+    false_label2 = buffer.freshLabel();
 }
 
 IF_::IF_(Exp* exp, Label* label)
