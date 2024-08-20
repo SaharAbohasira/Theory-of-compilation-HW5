@@ -41,7 +41,7 @@ def main():
 
     args = parser.parse_args()
 
-    tests_dir = os.path.join("hw5_amir_mann_tests", "tests")
+    tests_dir = os.path.join("hw5", "tests")
     if not os.path.isdir(tests_dir):
         raise(RuntimeError("Tests dir doesnt exist, probably you are not in the runner.py dir,\nOr maybe --hw_num is wrong, see --help for information."))
     results_dir = args.path_to_save_results if args.path_to_save_results else tests_dir
