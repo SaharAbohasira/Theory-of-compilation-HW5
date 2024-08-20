@@ -84,19 +84,18 @@ Exp: LPAREN Exp RPAREN                                          {$$ = new Exp(dy
      | Exp OR Label {buffer.emit("br i1 " + dynamic_cast<Exp*>($1)->reg + ", label %" + dynamic_cast<Label*>($3)->true_label + ", label %" + dynamic_cast<Label*>($3)->false_label);
       buffer.emit(dynamic_cast<Label*>($3)->false_label + ":");
       } Exp
-      {$$ = new Exp($1, $5, $2->value, "bool"); Exp* temp_exp = new Exp(); Exp* temp_exp2 = new Exp();
+      {$$ = new Exp($1, $5, $2->value, "bool");
       buffer.emit("br i1 " + dynamic_cast<Exp*>($5)->reg + ", label %" + dynamic_cast<Label*>($3)->true_label + ", label %" + dynamic_cast<Label*>($3)->false_label2);
        buffer.emit(dynamic_cast<Label*>($3)->false_label2 + ":");
-         buffer.emit(temp_exp->reg + " = add i1 0, 0");
+
          buffer.emit("br label %" + dynamic_cast<Label*>($3)->next_label);
           buffer.emit(dynamic_cast<Label*>($3)->true_label + ":");
-          dynamic_cast<Exp*>($$)->reg = codeGenerator.freshVar();
-           buffer.emit(temp_exp2->reg + " = add i1 1, 0");
+
             buffer.emit("br label %" + dynamic_cast<Label*>($3)->next_label);
              buffer.emit(dynamic_cast<Label*>($3)->next_label + ":");
              dynamic_cast<Exp*>($$)->reg = codeGenerator.freshVar();
-              buffer.emit(dynamic_cast<Exp*>($$)->reg + " = add i1 " + temp_exp->reg + ", " + temp_exp2->reg);
-               delete temp_exp; delete temp_exp2;}
+             buffer.emit(dynamic_cast<Exp*>($$)->reg + "= phi i1 [%" + dynamic_cast<Exp*>($1)->reg + ", %" + dynamic_cast<Label*>($3)->true_label + "], [%" + dynamic_cast<Exp*>($5)->reg + ", %" + dynamic_cast<Label*>($3)->false_label2 + "]");}
+
      | Exp RELATIONAL Exp                                       {$$ = new Exp($1, $3, $2->value, "relop");}
      | Exp EQUALITY Exp                                         {$$ = new Exp($1, $3, $2->value, "relop");}
      | LPAREN Type RPAREN Exp                                   {$$ = new Exp(dynamic_cast<Type*>($2), dynamic_cast<Exp*>($4));}
