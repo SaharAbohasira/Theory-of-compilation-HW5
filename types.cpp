@@ -28,6 +28,7 @@ Node::Node(const Node &node): value(node.value)
 Exp::Exp(): Node(), type("void"), isVar(false)
 {
     reg = codeGenerator.freshVar();
+    buffer.emit(reg +" = add i32 0, 0");
 }
 
 Exp::Exp(Node *node1, Node *node2, const std::string op, const std::string type1): isVar(false)
