@@ -1,1 +1,2 @@
-bool x = 1 < 2 or 3 > 5;
+byte x = 254b + 8b;
+printi(x);
