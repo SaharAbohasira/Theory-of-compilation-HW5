@@ -32,16 +32,16 @@ def main():
                         help="Test number(s) to run, if not spesified will run all available tests")
     parser.add_argument("--path_to_save_results", type=str, default=None,
                         help="The path to save result files of your code, default is in the tests dir.")
-    parser.add_argument("--dont_abort", action='store_true', default=False, 
+    parser.add_argument("--dont_abort", action='store_true', default=False,
                         help="If a test case fails continue to the next one. Default would abort.")
-    parser.add_argument("--clean", action='store_true', default=False, 
+    parser.add_argument("--clean", action='store_true', default=False,
                         help="Remove all .res files from path_to_save_results(or tests dir if uspesified) instead of testing.")
     parser.add_argument("--exclude_error", action='store_true', default=False,
                         help="Don't include error chanel output in the result file.")
 
     args = parser.parse_args()
 
-    tests_dir = os.path.join("hw5", "tests")
+    tests_dir = os.path.join(f"hw{args.hw_num}", "tests")
     if not os.path.isdir(tests_dir):
         raise(RuntimeError("Tests dir doesnt exist, probably you are not in the runner.py dir,\nOr maybe --hw_num is wrong, see --help for information."))
     results_dir = args.path_to_save_results if args.path_to_save_results else tests_dir
@@ -56,7 +56,7 @@ def main():
                     removed_files += 1
         print(f"Removed {removed_files} .res files.")
         exit()
-    
+
     files = os.listdir(tests_dir)
     test_nums = []
     if args.hw_num == 5:
@@ -69,7 +69,7 @@ def main():
                 if not test_num[0] in sub_tests:
                     sub_tests[test_num[0]] = []
                 sub_tests[test_num[0]].append(test_num[1])
-        
+
         for test in temp_testnums:
             if test not in sub_tests:
                 test_nums.append(int(test))
@@ -78,15 +78,15 @@ def main():
                 test_nums.append((int(test), int(sub_test)))
         test_nums = sorted(test_nums, key=lambda val: val if isinstance(val, int) else val[0])
     else:
-        in_paths = sorted([os.path.join(tests_dir, f) for f in files if f[-3:] == ".in"], 
-                            key=get_test_num)
+        in_paths = sorted([os.path.join(tests_dir, f) for f in files if f[-3:] == ".in"],
+                          key=get_test_num)
         for in_path in in_paths:
             test_num = get_test_num(in_path)
             test_nums.append(test_num)
-            
-        
-    
-    
+
+
+
+
     failed_tests = 0
     passed_tests = 0
     for test_num in test_nums:
@@ -97,7 +97,7 @@ def main():
         res_path = os.path.join(results_dir, f"test{test_num}.res")
         out_path = os.path.join(tests_dir,   f"test{test_num}.out")
         if args.hw_num == 5:
-            if isinstance(test_num, tuple):    
+            if isinstance(test_num, tuple):
                 test_num, sub_test_num = test_num
                 in_path = os.path.join(results_dir, f"test{test_num}.in")
                 in_in_path = os.path.join(results_dir, f"test{test_num}.in{sub_test_num}.in")
