@@ -276,7 +276,7 @@ Exp::Exp(Node *node, bool isVar): Node(), isVar(isVar)
         {
             string reg_copy = codeGenerator.freshVar();
             string new_reg = codeGenerator.freshVar();
-            buffer.emit("DEBUG" + reg);
+            //buffer.emit("DEBUG" + reg);
             buffer.emit(reg_copy + " = add i32 " + reg + ", 0");
             buffer.emit(new_reg + " = trunc i32 " + reg_copy + " to i8");
             reg = new_reg;
@@ -285,7 +285,7 @@ Exp::Exp(Node *node, bool isVar): Node(), isVar(isVar)
         {
             string reg_copy = codeGenerator.freshVar();
             string new_reg = codeGenerator.freshVar();
-            buffer.emit("DEBUG" + reg);
+            //buffer.emit("DEBUG" + reg);
             buffer.emit(reg_copy + " = add i32 " + reg + ", 0");
             buffer.emit(new_reg + " = icmp ne i32 " + reg_copy + ", 0");
             reg = new_reg;
