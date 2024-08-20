@@ -55,7 +55,7 @@ while (1 < 2){
         }
         printi(currNum);
         whichFibNumber = whichFibNumber + 1;
-        break;
+        break;a
     }
     return;
 }
