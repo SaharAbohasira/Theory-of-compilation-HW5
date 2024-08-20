@@ -108,7 +108,7 @@ CodeBuffer buffer = CodeBuffer();
 ScopeSymbolTable scopeSymbolTable = ScopeSymbolTable();
 general codeGenerator = general();
 
-int main(){p
+int main(){
     yydebug = 1;
     buffer.initialEmits();
     buffer.emit("define i32 @main(){");
