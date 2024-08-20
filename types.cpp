@@ -247,6 +247,7 @@ Exp::Exp(Node *node, bool isVar): Node(), isVar(isVar)
     if(!isVar)
     {
         Call* function = dynamic_cast<Call*>(node);
+        reg = function->reg;
     }
     else
     {
