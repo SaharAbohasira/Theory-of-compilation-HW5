@@ -84,7 +84,7 @@ Exp: LPAREN Exp RPAREN                                          {$$ = new Exp(dy
      | Exp OR Label {buffer.emit("br i1 " + dynamic_cast<Exp*>($1)->reg + ", label %" + dynamic_cast<Label*>($3)->true_label + ", label %" + dynamic_cast<Label*>($3)->false_label);
       buffer.emit(dynamic_cast<Label*>($3)->false_label + ":");
       } Exp
-      {$$ = new Exp($1, $5, $2->value, "bool"); Exp* temp_exp = new Exp(); Exp* temp_exp = new Exp();
+      {$$ = new Exp($1, $5, $2->value, "bool"); Exp* temp_exp = new Exp(); Exp* temp_exp2 = new Exp();
       buffer.emit("br i1 " + dynamic_cast<Exp*>($5)->reg + ", label %" + dynamic_cast<Label*>($3)->true_label + ", label %" + dynamic_cast<Label*>($3)->false_label2);
        buffer.emit(dynamic_cast<Label*>($3)->false_label2 + ":");
          buffer.emit(temp_exp->reg + " = add i1 0, 0");
