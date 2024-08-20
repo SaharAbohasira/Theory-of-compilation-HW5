@@ -58,5 +58,5 @@ while (1 < 2){
         whichFibNumber = whichFibNumber + 1;
         break;
     }
-    return;
+    break;
 }
