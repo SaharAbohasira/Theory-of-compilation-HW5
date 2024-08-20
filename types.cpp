@@ -52,7 +52,7 @@ Exp::Exp(Node *node1, Node *node2, const std::string op, const std::string type1
         }
         else if(op == "or")
         {
-            buffer.emit(reg + " = or i1 " + exp1->reg + ", " + exp2->reg);
+            //buffer.emit(reg + " = or i1 " + exp1->reg + ", " + exp2->reg);
 
         }
         if(op == "not")
