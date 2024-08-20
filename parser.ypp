@@ -45,7 +45,7 @@ Statement: LBRACE {scopeSymbolTable.push_scope();} Statements {scopeSymbolTable.
            | Type ID ASSIGN Exp SC                              {$$ = new Statement(dynamic_cast<Type*>($1), $2, dynamic_cast<Exp*>($4));}
            | ID ASSIGN Exp SC                                   {$$ = new Statement($1, dynamic_cast<Exp*>($3));}
            | Call SC                                            {$$ = new Statement(dynamic_cast<Call*>($1));}
-           | RETURN SC                                          {$$ = new Statement(new Exp(), true); buffer.emit("ret 0");}
+           | RETURN SC                                          {$$ = new Statement(new Exp(), true); buffer.emit("ret i32 0");}
            | IF_ Statement  {$$ = new Statement("IF", dynamic_cast<IF_*>($1)->exp); scopeSymbolTable.pop_scope(); buffer.emit("br label %" + dynamic_cast<IF_*>($1)->label->false_label); buffer.emit(dynamic_cast<IF_*>($1)->label->false_label + ":");} %prec LOWER_THAN_ELSE
            | IF_ Statement ELSE {/*std::cout << "end scope line: " << yylineno<< std::endl;*/ scopeSymbolTable.pop_scope(); buffer.emit("br label %" + dynamic_cast<IF_*>($1)->label->next_label); buffer.emit(dynamic_cast<IF_*>($1)->label->false_label + ":");} PUSH Statement      {$$ = new Statement("IF_", dynamic_cast<IF_*>($1)->exp);/*std::cout << "end scope line: " << yylineno<< std::endl;*/ scopeSymbolTable.pop_scope(); buffer.emit("br label %" + dynamic_cast<IF_*>($1)->label->next_label); buffer.emit(dynamic_cast<IF_*>($1)->label->next_label + ":");}
            | WHILE W_Label LPAREN ISBOOL RPAREN {whileNextStack.push_back(dynamic_cast<Label*>($2)->false_label);
