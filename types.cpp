@@ -240,6 +240,10 @@ Exp::Exp(Node *node, bool isVar): Node(), isVar(isVar)
     value = node->value;
     type = s->type;
     this->isVar = isVar;
+    if(reg == "")
+    {
+        reg = codeGenerator.freshVar();
+    }
     if(!isVar)
     {
         Call* function = dynamic_cast<Call*>(node);
@@ -263,7 +267,6 @@ Exp::Exp(Node *node, bool isVar): Node(), isVar(isVar)
         {
             buffer.emit(reg + " = add i8* " + s->reg +", 0");
         }*/
-        reg = codeGenerator.freshVar();
         string reg_ptr = codeGenerator.freshVar();
         buffer.emit(reg_ptr + " = getelementptr i32, i32* " + scopeSymbolTable.rbp + ", i32 " + std::to_string(s->offset));
         buffer.emit(reg + " = load i32, i32* " + reg_ptr);
@@ -372,27 +375,24 @@ Exp::Exp(Type* type1, Exp* exp): Node(exp->value), type(type1->type)
         output::errorMismatch(yylineno);
         exit(0);
     }
+    reg = codeGenerator.freshVar();
     if(type1->type == "int" && exp->type == "int")
     {
-        reg = codeGenerator.freshVar();
         buffer.emit(reg + " = add i32 " + exp->reg + ", 0");
         type = "int";
     }
     else if(type1->type == "int" && exp->type == "byte")
     {
-        reg = codeGenerator.freshVar();
         buffer.emit(reg + " = zext i8 " + exp->reg + " to i32");
         type = "int";
     }
     else if(type1->type == "byte" && exp->type == "int")
     {
-        reg = codeGenerator.freshVar();
         buffer.emit(reg + " = trunc i32 " + exp->reg + " to i8");
         type = "byte";
     }
     else if(type1->type == "byte" && exp->type == "byte")
     {
-        reg = codeGenerator.freshVar();
         buffer.emit(reg + " = add i8 " + exp->reg + ", 0");
         type = "byte";
     }
