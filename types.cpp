@@ -271,7 +271,7 @@ Exp::Exp(Node *node, bool isVar): Node(), isVar(isVar)
         string reg_ptr = codeGenerator.freshVar();
         buffer.emit(reg_ptr + " = getelementptr i32, i32* " + scopeSymbolTable.rbp + ", i32 " + std::to_string(s->offset));
         buffer.emit(reg + " = load i32, i32* " + reg_ptr);
-        buffer.emit("DEBUG" + reg);
+        //buffer.emit("DEBUG" + reg);
         if(s->type == "byte")
         {
             string reg_copy = codeGenerator.freshVar();
