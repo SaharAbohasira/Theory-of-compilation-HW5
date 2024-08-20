@@ -80,8 +80,8 @@ Exp: LPAREN Exp RPAREN                                          {$$ = new Exp(dy
      | TRUE                                                     {$$ = new Exp("bool", $1);}
      | FALSE                                                    {$$ = new Exp("bool", $1);}
      | NOT Exp                                                  {$$ = new Exp($2, $2, $1->value, "bool");}
-     | Exp AND Label Exp                                              {$$ = new Exp($1, $4, $2->value, "bool");}
-     | Exp OR Label {buffer.emit("br i1 " + dynamic_cast<Exp*>($1)->reg + "label %" + dynamic_cast<Label*>($3)->true_label + ", label %" + dynamic_cast<Label*>($3)->false_label);
+     | Exp AND Exp                                              {$$ = new Exp($1, $4, $2->value, "bool");}
+     | Exp Label OR {buffer.emit("br i1 " + dynamic_cast<Exp*>($1)->reg + "label %" + dynamic_cast<Label*>($3)->true_label + ", label %" + dynamic_cast<Label*>($3)->false_label);
       buffer.emit(dynamic_cast<Label*>($3)->false_label + ":");
       } Exp
       {$$ = new Exp($1, $4, $2->value, "bool");
