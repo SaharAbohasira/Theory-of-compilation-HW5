@@ -104,7 +104,6 @@ int main(){
     scopeSymbolTable.rbp = codeGenerator.freshVar();
     buffer.emit(scopeSymbolTable.rbp + " = alloca i32, i32 50");
     int parse = yyparse();
-    scopeSymbolTable.pop_scope();
     scopeSymbolTable.check_program();
     buffer.emit("ret i32 0");
     buffer.emit("}");
