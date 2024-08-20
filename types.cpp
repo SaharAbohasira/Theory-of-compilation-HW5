@@ -453,6 +453,7 @@ Call::Call(Node *funcID, Node *node)
         output::errorUndefFunc(yylineno, funcID->value);
         exit(0);
     }
+    reg = codeGenerator.freshVar();
     Exp *exp = dynamic_cast<Exp *>(node);
     if ( exp->type != symbol->param)
     {
