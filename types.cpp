@@ -102,6 +102,7 @@ Exp::Exp(Node *node1, Node *node2, const std::string op, const std::string type1
             }
             if(op == "/")
             {
+                buffer.emit("call void @check_division(i32 " + exp2->reg + ")");
                 buffer.emit(reg + " = sdiv i32 " + new_reg1 + ", " + new_reg2);
             }
 
@@ -122,6 +123,9 @@ Exp::Exp(Node *node1, Node *node2, const std::string op, const std::string type1
             }
             if(op == "/")
             {
+                string temp_reg = codeGenerator.freshVar();
+                buffer.emit(temp_reg + " = zext i8 " + exp2->reg + "to i32");
+                buffer.emit("call void @check_division(i32 " + temp_reg + ")");
                 buffer.emit(reg + " = udiv i8 " + exp1->reg + ", " + exp2->reg);
             }
             /*string trunc_reg = codeGenerator.freshVar();
