@@ -21,4 +21,5 @@
         }
         whichFibNumber = whichFibNumber + (byte)1;
     }
+    return;
 }
