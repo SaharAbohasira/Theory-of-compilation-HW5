@@ -25,6 +25,11 @@ Node::Node(const Node &node): value(node.value)
 {
 }
 
+Exp::Exp(): Node(), type("void"), isVar(false)
+{
+    reg = codeGenerator.freshVar();
+}
+
 Exp::Exp(Node *node1, Node *node2, const std::string op, const std::string type1): isVar(false)
 {
     Exp* exp1 = dynamic_cast<Exp *>(node1);
@@ -523,6 +528,7 @@ Statement::Statement(Type *type, Node *id) : Node()
         string reg_ptr = codeGenerator.freshVar();
         buffer.emit(temp_exp->reg + " = add i32 0, 0");
         buffer.emit(reg_ptr + " = getelementptr i32, i32* " + scopeSymbolTable.rbp + ", i32 " + std::to_string(s->offset));
+        //buffer.emit("hi1");
         buffer.emit("store i32 " + temp_exp->reg + ", i32* " + reg_ptr);
     }
     else if(type->type == "int")
@@ -531,6 +537,7 @@ Statement::Statement(Type *type, Node *id) : Node()
         string reg_ptr = codeGenerator.freshVar();
         buffer.emit(temp_exp->reg + " = add i32 0, 0");
         buffer.emit(reg_ptr + " = getelementptr i32, i32* " + scopeSymbolTable.rbp + ", i32 " + std::to_string(s->offset));
+        //buffer.emit("hi2");
         buffer.emit("store i32 " + temp_exp->reg + ", i32* " + reg_ptr);
     }
     else if(type->type == "byte")
@@ -539,6 +546,7 @@ Statement::Statement(Type *type, Node *id) : Node()
         string reg_ptr = codeGenerator.freshVar();
         buffer.emit(temp_exp->reg + " = add i32 0, 0");
         buffer.emit(reg_ptr + " = getelementptr i32, i32* " + scopeSymbolTable.rbp + ", i32 " + std::to_string(s->offset));
+        //buffer.emit("hi3");
         buffer.emit("store i32 " + temp_exp->reg + ", i32* " + reg_ptr);
     }
     delete temp_exp;
@@ -591,6 +599,7 @@ Statement::Statement(Type *type, Node *id, Exp *exp)
         string new_reg = codeGenerator.freshVar();
         buffer.emit(new_reg + " = zext i1 " + exp->reg + " to i32");
         buffer.emit(reg_ptr + " = getelementptr i32, i32* " + scopeSymbolTable.rbp + ", i32 " + std::to_string(s->offset));
+        //buffer.emit("hi4");
         buffer.emit("store i32 " + new_reg + ", i32* " + reg_ptr);
     }
     else if(type->type == "int")
@@ -606,6 +615,7 @@ Statement::Statement(Type *type, Node *id, Exp *exp)
         }
         string reg_ptr = codeGenerator.freshVar();
         buffer.emit(reg_ptr + " = getelementptr i32, i32* " + scopeSymbolTable.rbp + ", i32 " + std::to_string(s->offset));
+        //buffer.emit("hi5");
         buffer.emit("store i32 " + new_reg + ", i32* " + reg_ptr);
     }
     else if(type->type == "byte")

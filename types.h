@@ -45,7 +45,7 @@ public:
     string next_label = "";
     Exp(Exp *exp);
     Exp(Node *node, bool isVar);
-    Exp(): Node(), type("void"), isVar(false){};
+    Exp();
     Exp(const string type, Node *terminal);
     Exp(Node* node1, Node* node2, const string op, const string type1);
     Exp(Type* type1, Exp* exp);
