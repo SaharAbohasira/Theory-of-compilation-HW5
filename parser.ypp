@@ -93,7 +93,7 @@ Exp: LPAREN Exp RPAREN                                          {$$ = new Exp(dy
                            buffer.emit("br label %" + dynamic_cast<Label*>($3)->next_label);
                             buffer.emit(dynamic_cast<Label*>($3)->next_label + ":");
                             dynamic_cast<Exp*>($$)->reg = codeGenerator.freshVar();
-                            buffer.emit(dynamic_cast<Exp*>($$)->reg + "= phi i1 [1" + ", %" + dynamic_cast<Label*>($3)->true2_label + "], [0" + ", %" + dynamic_cast<Label*>($3)->false_label + "]");}
+                            buffer.emit(dynamic_cast<Exp*>($$)->reg + "= phi i1 [1" + ", %" + dynamic_cast<Label*>($3)->true_label2 + "], [0" + ", %" + dynamic_cast<Label*>($3)->false_label + "]");}
      | Exp OR Label {buffer.emit("br i1 " + dynamic_cast<Exp*>($1)->reg + ", label %" + dynamic_cast<Label*>($3)->true_label + ", label %" + dynamic_cast<Label*>($3)->false_label);
       buffer.emit(dynamic_cast<Label*>($3)->false_label + ":");
       } Exp
