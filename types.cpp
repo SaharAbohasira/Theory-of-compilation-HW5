@@ -732,7 +732,7 @@ Statement::Statement(Node *id, Exp *exp)
         {
             buffer.emit(new_reg + " = zext i8 " + exp->reg + " to i32");
         }
-        else
+        else if (exp->type == "int")
         {
             buffer.emit(new_reg + " = add i32 " + exp->reg + ", 0");
         }
