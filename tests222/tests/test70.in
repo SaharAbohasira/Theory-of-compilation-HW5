@@ -1,0 +1,3 @@
+int g = 125124;
+byte f = (byte) g;
+f = (byte)"hello world";

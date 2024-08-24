@@ -1,0 +1,133 @@
+int z;
+byte t;
+
+if (true) readi(1);
+if (true)
+{
+    readi(2);
+    if (false)
+    {
+        readi(4);
+        print("wow");
+        printi(3);
+        printi(3 b);
+        printi(z);
+        printi(t);
+    }
+}
+else readi(5);
+
+if (true)
+{
+    readi(2);
+    if (false)
+    {
+        readi(4);
+        print("wow");
+        printi(3);
+        printi(3 b);
+        printi(z);
+        printi(t);
+    }
+    else
+    {
+        if(true)
+        {
+            readi(5);
+            print("wow");
+            printi(3);
+            printi(3 b);
+            printi(z);
+            printi(t);
+        }
+        //while (true) printi(20);
+        while (false)
+        {
+            readi(5);
+            print("wow");
+            printi(3);
+            printi(3 b);
+            printi(z);
+            printi(t);
+        }
+    }
+}
+else 
+{
+    readi(6);
+    print("wow");
+    printi(3);
+    printi(3 b);
+    printi(z);
+    printi(t);
+}
+
+int x = readi(5);
+byte y = (byte)readi(4);
+x = (int)readi(1);
+
+x = (byte)readi(1) + readi(2);
+x = (byte)(readi(1) + readi(2));
+x = readi(1) + (byte)readi(2);
+x = (byte)(readi(1) + readi(2));
+x = (byte)(readi(1) + (byte)readi(2));
+x = (byte)((byte)readi(1) + (byte)readi(2));
+x = (byte)(readi(1) + (byte)readi(2));
+x = (readi(1) + readi(2));
+x = (readi(1) + (byte)readi(2));
+x = ((byte)readi(1) + (byte)readi(2));
+x = (readi(1) + (byte)readi(2));
+
+y = (byte)(readi(1) + readi(2));
+y = (byte)(readi(1) + readi(2));
+y = (byte)(readi(1) + (byte)readi(2));
+y = (byte)((byte)readi(1) + (byte)readi(2));
+y = (byte)(readi(1) + (byte)readi(2));
+y = ((byte)readi(1) + (byte)readi(2));
+
+x = (int)readi(1) + readi(2);
+x = (int)(readi(1) + readi(2));
+x = readi(1) + (int)readi(2);
+x = (int)(readi(1) + readi(2));
+x = (int)(readi(1) + (int)readi(2));
+x = (int)((int)readi(1) + (int)readi(2));
+x = (int)(readi(1) + (int)readi(2));
+x = (readi(1) + readi(2));
+x = (readi(1) + (int)readi(2));
+x = ((int)readi(1) + (int)readi(2));
+x = (readi(1) + (int)readi(2));
+
+int a = 1 + 1;
+a = 1 b + 2;
+a = 1 + 2 b;
+a = 1 b + 1 b;
+
+byte b1 = 1 b + 1 b;
+byte b2 = (byte)(1 + 1);
+
+a = 1 / 1;
+a = 1 b / 2;
+a = 1 / 2 b;
+a = 1 b / 1 b;
+
+a = 1 * 1;
+a = 1 b * 2;
+a = 1 * 2 b;
+a = 1 b * 1 b;
+
+a = 1 - 1;
+a = 1 b - 2;
+a = 1 - 2 b;
+a = 1 b - 1 b;
+
+b1 = 1 b / 1 b;
+b2 = (byte)(1 / 1);
+
+b1 = 1 b * 1 b;
+b2 = (byte)(1 * 1);
+
+b1 = 1 b - 1 b;
+b2 = (byte)(1 - 1);
+
+bool bol = true;
+if(bol and true and false or true) printi(3);

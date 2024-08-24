@@ -1,0 +1,3 @@
+lli: <stdin>:1:1: error: expected top-level entity
+line 3: byte value 100000 out of range
+^
