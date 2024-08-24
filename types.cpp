@@ -736,7 +736,7 @@ Statement::Statement(Node *id, Exp *exp)
         {
             buffer.emit(new_reg + " = add i32 " + exp->reg + ", 0");
         }
-        buffer.emit("store i32 " + exp->reg + ", i32* " + reg_ptr);
+        buffer.emit("store i32 " + new_reg + ", i32* " + reg_ptr);
     }
     else if(symbol->type == "byte")
     {
