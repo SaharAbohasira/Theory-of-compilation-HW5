@@ -283,6 +283,7 @@ Exp::Exp(Node *node, bool isVar): Node(), isVar(isVar)
             //buffer.emit("DEBUG" + reg);
             buffer.emit(reg_copy + " = add i32 " + reg + ", 0");
             buffer.emit(new_reg + " = trunc i32 " + reg_copy + " to i8");
+            type = "byte";
             reg = new_reg;
         }
         else if(s->type == "bool")
@@ -292,6 +293,7 @@ Exp::Exp(Node *node, bool isVar): Node(), isVar(isVar)
             //buffer.emit("DEBUG" + reg);
             buffer.emit(reg_copy + " = add i32 " + reg + ", 0");
             buffer.emit(new_reg + " = icmp ne i32 " + reg_copy + ", 0");
+            type = "bool";
             reg = new_reg;
         }
     }
