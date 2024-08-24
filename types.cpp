@@ -283,6 +283,7 @@ Exp::Exp(Node *node, bool isVar): Node(), isVar(isVar)
             //buffer.emit("DEBUG" + reg);
             buffer.emit(reg_copy + " = add i32 " + reg + ", 0");
             buffer.emit(new_reg + " = trunc i32 " + reg_copy + " to i8");
+            type = "byte";
             reg = new_reg;
         }
         else if(s->type == "bool")
@@ -292,6 +293,7 @@ Exp::Exp(Node *node, bool isVar): Node(), isVar(isVar)
             //buffer.emit("DEBUG" + reg);
             buffer.emit(reg_copy + " = add i32 " + reg + ", 0");
             buffer.emit(new_reg + " = icmp ne i32 " + reg_copy + ", 0");
+            type = "bool";
             reg = new_reg;
         }
     }
@@ -724,8 +726,16 @@ Statement::Statement(Node *id, Exp *exp)
     else if(symbol->type == "int")
     {
         string reg_ptr = codeGenerator.freshVar();
+        string new_reg = codeGenerator.freshVar();
         buffer.emit(reg_ptr + " = getelementptr i32, i32* " + scopeSymbolTable.rbp + ", i32 " + std::to_string(symbol->offset));
-        //buffer.emit("hi8");
+        if(exp->type == "byte")
+        {
+            buffer.emit(new_reg + " = zext i8 " + exp->reg + " to i32");
+        }
+        else
+        {
+            buffer.emit(new_reg + " = add i32 " + exp->reg + ", 0");
+        }
         buffer.emit("store i32 " + exp->reg + ", i32* " + reg_ptr);
     }
     else if(symbol->type == "byte")
